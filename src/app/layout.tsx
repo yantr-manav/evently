@@ -8,8 +8,8 @@ import { Toaster } from "react-hot-toast";
 import { PixelBackground } from "@/components/PixelBackground";
 
 export const metadata: Metadata = {
-  title: "🎮 PixelEvents - Retro Event Discovery",
-  description: "Level up your social life! Discover epic events in pixel-perfect style",
+  title: "🚀 CosmicEvents - Stellar Event Discovery",
+  description: "Explore the universe of events! Discover stellar gatherings across the galaxy",
 };
 
 export default function RootLayout({
@@ -28,7 +28,7 @@ export default function RootLayout({
         />
 
       </head>
-      <body className="font-pixel antialiased bg-pixel-bg min-h-screen text-pixel-primary overflow-x-hidden crt-effect">
+      <body className="font-space antialiased bg-cosmic-midnight min-h-screen text-cosmic-stardust overflow-x-hidden">
         <Providers>
           <div className="relative min-h-screen">
             <PixelBackground />

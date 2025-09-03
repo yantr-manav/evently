@@ -2,61 +2,70 @@
 
 import { motion } from 'framer-motion'
 
-interface PixelIconProps {
-  type: 'controller' | 'user' | 'start' | 'heart' | 'star' | 'coin' | 'trophy' | 'sword' | 'shield'
+interface CosmicIconProps {
+  type: 'rocket' | 'astronaut' | 'planet' | 'star' | 'galaxy' | 'satellite' | 'comet' | 'nebula' | 'wormhole'
   className?: string
   animate?: boolean
 }
 
-export function PixelIcon({ type, className = '', animate = true }: PixelIconProps) {
+export function CosmicIcon({ type, className = '', animate = true }: CosmicIconProps) {
   const icons = {
-    controller: '🎮',
-    user: '👤',
-    start: '▶️',
-    heart: '❤️',
+    rocket: '🚀',
+    astronaut: '👨‍🚀',
+    planet: '🪐',
     star: '⭐',
-    coin: '🪙',
-    trophy: '🏆',
-    sword: '⚔️',
-    shield: '🛡️'
+    galaxy: '🌌',
+    satellite: '🛰️',
+    comet: '☄️',
+    nebula: '🌠',
+    wormhole: '🕳️'
   }
 
   const animations = {
-    controller: {
-      rotate: [0, -10, 10, 0],
+    rocket: {
+      y: [0, -10, 0],
+      rotate: [0, 5, -5, 0],
       scale: [1, 1.1, 1]
     },
-    user: {
-      y: [0, -2, 0],
+    astronaut: {
+      y: [0, -5, 0],
+      rotate: [0, 2, -2, 0],
       scale: [1, 1.05, 1]
     },
-    start: {
-      x: [0, 2, 0],
-      scale: [1, 1.2, 1]
-    },
-    heart: {
-      scale: [1, 1.3, 1],
-      rotate: [0, 5, -5, 0]
-    },
-    star: {
+    planet: {
       rotate: [0, 360],
-      scale: [1, 1.2, 1]
-    },
-    coin: {
-      rotateY: [0, 180, 360],
       scale: [1, 1.1, 1]
     },
-    trophy: {
-      y: [0, -3, 0],
-      rotate: [0, 2, -2, 0]
+    star: {
+      scale: [1, 1.3, 1],
+      rotate: [0, 180, 360],
+      filter: ['brightness(1)', 'brightness(1.5)', 'brightness(1)']
     },
-    sword: {
-      rotate: [0, 15, -15, 0],
-      x: [0, 1, -1, 0]
+    galaxy: {
+      rotate: [0, 360],
+      scale: [1, 1.2, 1],
+      filter: ['hue-rotate(0deg)', 'hue-rotate(180deg)', 'hue-rotate(360deg)']
     },
-    shield: {
-      scale: [1, 1.1, 1],
-      rotate: [0, -5, 5, 0]
+    satellite: {
+      y: [0, -8, 0],
+      x: [0, 3, 0],
+      rotate: [0, 10, -10, 0]
+    },
+    comet: {
+      x: [0, 15, 0],
+      y: [0, -5, 0],
+      scale: [1, 1.2, 1],
+      filter: ['brightness(1)', 'brightness(1.8)', 'brightness(1)']
+    },
+    nebula: {
+      scale: [1, 1.4, 1],
+      rotate: [0, 45, -45, 0],
+      filter: ['hue-rotate(0deg)', 'hue-rotate(120deg)', 'hue-rotate(240deg)', 'hue-rotate(360deg)']
+    },
+    wormhole: {
+      scale: [1, 0.8, 1.2, 1],
+      rotate: [0, 180, 360],
+      filter: ['brightness(1)', 'brightness(0.5)', 'brightness(1.5)', 'brightness(1)']
     }
   }
 
@@ -65,7 +74,7 @@ export function PixelIcon({ type, className = '', animate = true }: PixelIconPro
       className={`inline-block ${className}`}
       animate={animate ? animations[type] : {}}
       transition={{
-        duration: 2,
+        duration: 3,
         repeat: Infinity,
         ease: "easeInOut"
       }}
@@ -74,3 +83,6 @@ export function PixelIcon({ type, className = '', animate = true }: PixelIconPro
     </motion.span>
   )
 }
+
+// Alias for backward compatibility
+export const PixelIcon = CosmicIcon

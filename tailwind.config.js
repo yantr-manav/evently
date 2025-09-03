@@ -8,127 +8,137 @@ module.exports = {
     theme: {
       extend: {
         fontFamily: {
-          'pixel': ['Courier New', 'monospace'],
-          'mono': ['Courier New', 'monospace'],
-          'sans': ['Courier New', 'monospace'],
+          'space': ['Orbitron', 'monospace'],
+          'mono': ['JetBrains Mono', 'monospace'],
+          'sans': ['Inter', 'system-ui', 'sans-serif'],
         },
         colors: {
-          pixel: {
-            bg: '#0f0f23',
-            primary: '#00ff41',
-            secondary: '#ff6b35',
-            accent: '#7209b7',
-            warning: '#ffcc02',
-            error: '#ff073a',
-            success: '#39ff14',
-            blue: '#00d4ff',
-            purple: '#bf00ff',
-            pink: '#ff1493',
-            cyan: '#00ffff',
-            yellow: '#ffff00',
-            orange: '#ff8c00',
-            red: '#ff0040',
-            green: '#00ff00',
+          cosmic: {
+            midnight: '#1a0b2e',
+            purple: '#16213e',
+            blue: '#0f3460',
+            starry: '#e94560',
+            magenta: '#f39c12',
+            nebula: '#533483',
+            void: '#0a0a0a',
+            plasma: '#00d4ff',
+            aurora: '#7209b7',
+            comet: '#ff6b35',
+            galaxy: '#2d1b69',
+            stardust: '#ffffff',
           }
         },
         animation: {
-          'pixel-bounce': 'pixelBounce 0.6s ease-in-out',
-          'pixel-shake': 'pixelShake 0.5s ease-in-out',
-          'pixel-glow': 'pixelGlow 2s ease-in-out infinite alternate',
-          'pixel-float': 'pixelFloat 3s ease-in-out infinite',
-          'pixel-slide-in': 'pixelSlideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          'pixel-zoom': 'pixelZoom 0.3s ease-out',
-          'pixel-rotate': 'pixelRotate 0.5s ease-in-out',
-          'pixel-pulse': 'pixelPulse 1.5s ease-in-out infinite',
-          'pixel-typewriter': 'pixelTypewriter 3s steps(40) infinite',
-          'pixel-scan': 'pixelScan 2s linear infinite',
-          'pixel-glitch': 'pixelGlitch 0.3s ease-in-out infinite',
-          'retro-blink': 'retroBlink 1s step-end infinite',
+          'float': 'float 6s ease-in-out infinite',
+          'pulse-glow': 'pulseGlow 2s ease-in-out infinite alternate',
+          'drift': 'drift 20s linear infinite',
+          'twinkle': 'twinkle 3s ease-in-out infinite',
+          'orbit': 'orbit 15s linear infinite',
+          'nebula': 'nebula 8s ease-in-out infinite',
+          'warp': 'warp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          'constellation': 'constellation 4s ease-in-out infinite',
+          'cosmic-pulse': 'cosmicPulse 3s ease-in-out infinite',
+          'starfield': 'starfield 50s linear infinite',
+          'parallax-slow': 'parallaxSlow 60s linear infinite',
+          'parallax-fast': 'parallaxFast 30s linear infinite',
         },
         keyframes: {
-          pixelBounce: {
-            '0%, 100%': { transform: 'translateY(0) scale(1)' },
-            '50%': { transform: 'translateY(-10px) scale(1.05)' },
+          float: {
+            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+            '33%': { transform: 'translateY(-20px) rotate(1deg)' },
+            '66%': { transform: 'translateY(-10px) rotate(-1deg)' },
           },
-          pixelShake: {
-            '0%, 100%': { transform: 'translateX(0)' },
-            '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-2px)' },
-            '20%, 40%, 60%, 80%': { transform: 'translateX(2px)' },
-          },
-          pixelGlow: {
+          pulseGlow: {
             '0%': { 
-              boxShadow: '0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor',
+              boxShadow: '0 0 20px rgba(233, 69, 96, 0.5), 0 0 40px rgba(233, 69, 96, 0.3)',
               filter: 'brightness(1)'
             },
             '100%': { 
-              boxShadow: '0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor',
+              boxShadow: '0 0 30px rgba(233, 69, 96, 0.8), 0 0 60px rgba(233, 69, 96, 0.5)',
               filter: 'brightness(1.2)'
             },
           },
-          pixelFloat: {
-            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
-            '33%': { transform: 'translateY(-10px) rotate(1deg)' },
-            '66%': { transform: 'translateY(-5px) rotate(-1deg)' },
+          drift: {
+            '0%': { transform: 'translateX(-100vw) translateY(0px)' },
+            '100%': { transform: 'translateX(100vw) translateY(-50px)' },
           },
-          pixelSlideIn: {
-            '0%': { transform: 'translateX(-100%) scale(0.8)', opacity: '0' },
-            '100%': { transform: 'translateX(0) scale(1)', opacity: '1' },
+          twinkle: {
+            '0%, 100%': { opacity: '0.3', transform: 'scale(0.8)' },
+            '50%': { opacity: '1', transform: 'scale(1.2)' },
           },
-          pixelZoom: {
-            '0%': { transform: 'scale(0.8)' },
-            '50%': { transform: 'scale(1.1)' },
-            '100%': { transform: 'scale(1)' },
+          orbit: {
+            '0%': { transform: 'rotate(0deg) translateX(100px) rotate(0deg)' },
+            '100%': { transform: 'rotate(360deg) translateX(100px) rotate(-360deg)' },
           },
-          pixelRotate: {
-            '0%': { transform: 'rotate(0deg) scale(1)' },
-            '50%': { transform: 'rotate(180deg) scale(1.1)' },
-            '100%': { transform: 'rotate(360deg) scale(1)' },
+          nebula: {
+            '0%, 100%': { 
+              background: 'radial-gradient(circle, rgba(114, 9, 183, 0.3) 0%, rgba(26, 11, 46, 0.1) 70%)',
+              transform: 'scale(1) rotate(0deg)'
+            },
+            '50%': { 
+              background: 'radial-gradient(circle, rgba(233, 69, 96, 0.4) 0%, rgba(15, 52, 96, 0.2) 70%)',
+              transform: 'scale(1.1) rotate(180deg)'
+            },
           },
-          pixelPulse: {
-            '0%, 100%': { opacity: '1', transform: 'scale(1)' },
-            '50%': { opacity: '0.7', transform: 'scale(0.95)' },
+          warp: {
+            '0%': { transform: 'scale(0.8) rotateY(-90deg)', opacity: '0' },
+            '50%': { transform: 'scale(1.05) rotateY(0deg)', opacity: '0.8' },
+            '100%': { transform: 'scale(1) rotateY(0deg)', opacity: '1' },
           },
-          pixelTypewriter: {
-            '0%': { width: '0' },
-            '50%': { width: '100%' },
-            '100%': { width: '0' },
+          constellation: {
+            '0%, 100%': { 
+              transform: 'translateY(0px)',
+              filter: 'brightness(1) hue-rotate(0deg)'
+            },
+            '25%': { 
+              transform: 'translateY(-15px)',
+              filter: 'brightness(1.2) hue-rotate(90deg)'
+            },
+            '75%': { 
+              transform: 'translateY(-5px)',
+              filter: 'brightness(0.8) hue-rotate(270deg)'
+            },
           },
-          pixelScan: {
-            '0%': { transform: 'translateY(-100%)' },
-            '100%': { transform: 'translateY(100vh)' },
+          cosmicPulse: {
+            '0%, 100%': { 
+              boxShadow: '0 0 0 0 rgba(233, 69, 96, 0.7)',
+              transform: 'scale(1)'
+            },
+            '50%': { 
+              boxShadow: '0 0 0 20px rgba(233, 69, 96, 0)',
+              transform: 'scale(1.05)'
+            },
           },
-          pixelGlitch: {
-            '0%, 100%': { transform: 'translate(0)' },
-            '20%': { transform: 'translate(-2px, 2px)' },
-            '40%': { transform: 'translate(-2px, -2px)' },
-            '60%': { transform: 'translate(2px, 2px)' },
-            '80%': { transform: 'translate(2px, -2px)' },
+          starfield: {
+            '0%': { transform: 'translateY(0px)' },
+            '100%': { transform: 'translateY(-2000px)' },
           },
-          retroBlink: {
-            '0%, 50%': { opacity: '1' },
-            '51%, 100%': { opacity: '0' },
+          parallaxSlow: {
+            '0%': { transform: 'translateY(0px) translateX(0px)' },
+            '100%': { transform: 'translateY(-1000px) translateX(-200px)' },
+          },
+          parallaxFast: {
+            '0%': { transform: 'translateY(0px) translateX(0px)' },
+            '100%': { transform: 'translateY(-2000px) translateX(300px)' },
           },
         },
         backgroundImage: {
-          'pixel-grid': `
-            linear-gradient(rgba(0, 255, 65, 0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 255, 65, 0.1) 1px, transparent 1px)
-          `,
-          'pixel-stars': `
-            radial-gradient(2px 2px at 20px 30px, #00ff41, transparent),
-            radial-gradient(2px 2px at 40px 70px, #ff6b35, transparent),
+          'cosmic-gradient': 'linear-gradient(135deg, #1a0b2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #2d1b69 100%)',
+          'nebula-gradient': 'radial-gradient(ellipse at center, rgba(114, 9, 183, 0.3) 0%, rgba(233, 69, 96, 0.2) 50%, transparent 100%)',
+          'starfield': `
+            radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
+            radial-gradient(2px 2px at 40px 70px, #e94560, transparent),
             radial-gradient(1px 1px at 90px 40px, #00d4ff, transparent),
-            radial-gradient(1px 1px at 130px 80px, #bf00ff, transparent),
-            radial-gradient(2px 2px at 160px 30px, #ffcc02, transparent)
+            radial-gradient(1px 1px at 130px 80px, #7209b7, transparent),
+            radial-gradient(2px 2px at 160px 30px, #f39c12, transparent)
           `,
         },
         backgroundSize: {
-          'pixel-grid': '20px 20px',
-          'pixel-stars': '200px 100px',
+          'starfield': '200px 100px',
         },
         dropShadow: {
-          'pixel': '2px 2px 0px rgba(0, 0, 0, 0.8)',
-          'pixel-glow': '0 0 10px currentColor',
+          'cosmic': '0 0 20px rgba(233, 69, 96, 0.5)',
+          'nebula': '0 0 30px rgba(114, 9, 183, 0.6)',
         },
       },
     },

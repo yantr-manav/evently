@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { PixelIcon } from '@/components/PixelIcon'
+import { CosmicIcon } from '@/components/PixelIcon'
 
 export default function Home() {
   const [heroRef, heroInView] = useInView({ triggerOnce: true, threshold: 0.1 })
@@ -11,67 +11,98 @@ export default function Home() {
   const [statsRef, statsInView] = useInView({ triggerOnce: true, threshold: 0.1 })
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
+    <div className="min-h-screen relative">
+      {/* Hero Section - Space Launch */}
       <section ref={heroRef} className="relative pt-32 pb-20 overflow-hidden">
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 100 }}
             animate={heroInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
           >
-            {/* Pixel Art Logo */}
+            {/* Cosmic Logo */}
             <motion.div
               animate={{ 
+                rotate: [0, 360],
                 scale: [1, 1.1, 1],
-                rotate: [0, 2, -2, 0]
               }}
               transition={{ 
-                duration: 3, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
+                rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+                scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
               }}
               className="inline-block mb-8"
             >
               <div className="relative">
-                <div className="w-24 h-24 mx-auto bg-pixel-primary animate-pixel-glow" 
-                     style={{
-                       clipPath: 'polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)'
-                     }}>
-                </div>
+                <motion.div 
+                  className="w-32 h-32 mx-auto rounded-full bg-gradient-to-r from-cosmic-starry via-cosmic-magenta to-cosmic-plasma"
+                  animate={{
+                    boxShadow: [
+                      '0 0 30px rgba(233, 69, 96, 0.5), 0 0 60px rgba(233, 69, 96, 0.3)',
+                      '0 0 50px rgba(233, 69, 96, 0.8), 0 0 100px rgba(233, 69, 96, 0.5)',
+                      '0 0 30px rgba(233, 69, 96, 0.5), 0 0 60px rgba(233, 69, 96, 0.3)',
+                    ]
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-pixel-bg text-2xl font-bold">🎮</span>
+                  <CosmicIcon type="galaxy" className="text-6xl" />
                 </div>
+                
+                {/* Orbiting Elements */}
+                {[0, 120, 240].map((rotation, index) => (
+                  <motion.div
+                    key={index}
+                    className="absolute top-1/2 left-1/2 w-4 h-4"
+                    animate={{
+                      rotate: [rotation, rotation + 360],
+                    }}
+                    transition={{
+                      duration: 8 + index * 2,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }}
+                    style={{
+                      transformOrigin: '0 0',
+                      transform: `translate(-50%, -50%) rotate(${rotation}deg) translateX(80px)`
+                    }}
+                  >
+                    <div className="w-4 h-4 bg-cosmic-plasma rounded-full animate-twinkle" />
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
             
             {/* Animated Title */}
             <div className="mb-8">
               <motion.h1 
-                className="text-4xl md:text-7xl font-bold mb-4 text-pixel-primary drop-shadow-pixel"
+                className="text-5xl md:text-8xl font-bold mb-6 font-space"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={heroInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 1, delay: 0.2 }}
+                transition={{ duration: 1, delay: 0.3 }}
               >
                 <motion.span
                   animate={{ 
+                    color: ['#e94560', '#00d4ff', '#7209b7', '#f39c12', '#e94560'],
                     textShadow: [
-                      '0 0 10px #00ff41',
-                      '0 0 20px #00ff41, 0 0 30px #00ff41',
-                      '0 0 10px #00ff41'
+                      '0 0 20px rgba(233, 69, 96, 0.8)',
+                      '0 0 30px rgba(0, 212, 255, 0.8)',
+                      '0 0 25px rgba(114, 9, 183, 0.8)',
+                      '0 0 35px rgba(243, 156, 18, 0.8)',
+                      '0 0 20px rgba(233, 69, 96, 0.8)',
                     ]
                   }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="pixel-font"
+                  transition={{ duration: 5, repeat: Infinity }}
+                  className="bg-gradient-to-r from-cosmic-starry via-cosmic-magenta to-cosmic-plasma bg-clip-text text-transparent"
                 >
-                  PIXEL
+                  COSMIC
                 </motion.span>
+                <br />
                 <motion.span
                   animate={{ 
-                    color: ['#ff6b35', '#00d4ff', '#bf00ff', '#ffcc02', '#ff6b35']
+                    color: ['#ffffff', '#e94560', '#00d4ff', '#ffffff'],
                   }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                  className="pixel-font ml-4"
+                  transition={{ duration: 4, repeat: Infinity, delay: 1 }}
+                  className="text-cosmic-stardust"
                 >
                   EVENTS
                 </motion.span>
@@ -80,50 +111,77 @@ export default function Home() {
               <motion.div
                 initial={{ width: 0 }}
                 animate={heroInView ? { width: '100%' } : {}}
-                transition={{ duration: 2, delay: 0.5 }}
-                className="h-1 bg-gradient-to-r from-pixel-primary via-pixel-secondary to-pixel-accent mx-auto max-w-md mb-6"
+                transition={{ duration: 2, delay: 0.8 }}
+                className="h-1 bg-gradient-to-r from-cosmic-starry via-cosmic-magenta to-cosmic-plasma mx-auto max-w-2xl mb-8"
               />
             </div>
             
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-lg md:text-xl text-pixel-primary/80 mb-8 max-w-3xl mx-auto leading-relaxed retro-font"
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="text-xl md:text-2xl text-cosmic-stardust/90 mb-12 max-w-4xl mx-auto leading-relaxed font-mono"
             >
-              &gt; LEVEL UP YOUR SOCIAL LIFE! <br />
-              &gt; DISCOVER EPIC EVENTS IN PIXEL-PERFECT STYLE <br />
-              &gt; CONNECT WITH FELLOW GAMERS & CREATORS
+              <motion.span
+                animate={{ opacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                &gt; EXPLORE THE UNIVERSE OF EVENTS
+              </motion.span>
+              <br />
+              <motion.span
+                animate={{ opacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+              >
+                &gt; DISCOVER STELLAR GATHERINGS ACROSS THE GALAXY
+              </motion.span>
+              <br />
+              <motion.span
+                animate={{ opacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+              >
+                &gt; CONNECT WITH FELLOW SPACE EXPLORERS
+              </motion.span>
             </motion.p>
             
-            {/* Pixel Buttons */}
+            {/* Cosmic Action Buttons */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 50 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+              transition={{ duration: 0.8, delay: 1 }}
+              className="flex flex-col sm:flex-row gap-8 justify-center items-center"
             >
               <Link href="/events">
                 <motion.div
                   whileHover={{ 
                     scale: 1.05,
-                    boxShadow: '0 0 30px rgba(0, 255, 65, 0.6)'
+                    boxShadow: '0 0 40px rgba(233, 69, 96, 0.8), 0 0 80px rgba(233, 69, 96, 0.4)'
                   }}
                   whileTap={{ scale: 0.95 }}
-                  className="group relative bg-pixel-primary text-pixel-bg px-8 py-4 font-bold text-lg transition-all duration-300 border-4 border-pixel-primary hover:bg-transparent hover:text-pixel-primary pixel-font"
-                  style={{
-                    clipPath: 'polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)'
-                  }}
+                  className="group relative bg-gradient-to-r from-cosmic-starry to-cosmic-magenta text-cosmic-stardust px-10 py-5 font-bold text-xl transition-all duration-500 rounded-full border-2 border-cosmic-starry hover:border-cosmic-magenta font-space overflow-hidden"
                 >
-                  <PixelIcon type="controller" className="inline mr-2" />
-                  START GAME
                   <motion.div
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                    className="inline ml-2"
-                  >
-                    &gt;&gt;
-                  </motion.div>
+                    className="absolute inset-0 bg-gradient-to-r from-cosmic-magenta to-cosmic-plasma opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    animate={{
+                      background: [
+                        'linear-gradient(45deg, #e94560, #f39c12)',
+                        'linear-gradient(45deg, #f39c12, #00d4ff)',
+                        'linear-gradient(45deg, #00d4ff, #7209b7)',
+                        'linear-gradient(45deg, #7209b7, #e94560)',
+                      ]
+                    }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                  />
+                  <div className="relative z-10 flex items-center space-x-3">
+                    <CosmicIcon type="rocket" className="text-2xl" />
+                    <span>LAUNCH MISSION</span>
+                    <motion.div
+                      animate={{ x: [0, 8, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      →
+                    </motion.div>
+                  </div>
                 </motion.div>
               </Link>
               
@@ -131,16 +189,15 @@ export default function Home() {
                 <motion.div
                   whileHover={{ 
                     scale: 1.05,
-                    boxShadow: '0 0 30px rgba(255, 107, 53, 0.6)'
+                    boxShadow: '0 0 40px rgba(0, 212, 255, 0.8), 0 0 80px rgba(0, 212, 255, 0.4)'
                   }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-pixel-secondary text-pixel-bg px-8 py-4 font-bold text-lg transition-all duration-300 border-4 border-pixel-secondary hover:bg-transparent hover:text-pixel-secondary pixel-font"
-                  style={{
-                    clipPath: 'polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)'
-                  }}
+                  className="bg-transparent border-2 border-cosmic-plasma text-cosmic-plasma hover:bg-cosmic-plasma hover:text-cosmic-midnight px-10 py-5 font-bold text-xl transition-all duration-500 rounded-full font-space"
                 >
-                  <PixelIcon type="user" className="inline mr-2" />
-                  JOIN GUILD
+                  <div className="flex items-center space-x-3">
+                    <CosmicIcon type="astronaut" className="text-2xl" />
+                    <span>JOIN CREW</span>
+                  </div>
                 </motion.div>
               </Link>
             </motion.div>
@@ -148,9 +205,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats Section - Retro Gaming Style */}
-      <section ref={statsRef} className="py-16 bg-pixel-bg/50 border-y-4 border-pixel-primary">
-        <div className="container mx-auto px-4">
+      {/* Stats Section - Space Station Dashboard */}
+      <section ref={statsRef} className="py-20 relative">
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-cosmic-nebula/20 via-cosmic-galaxy/30 to-cosmic-nebula/20"
+          animate={{
+            background: [
+              'linear-gradient(90deg, rgba(83, 52, 131, 0.2), rgba(45, 27, 105, 0.3), rgba(83, 52, 131, 0.2))',
+              'linear-gradient(90deg, rgba(45, 27, 105, 0.3), rgba(83, 52, 131, 0.2), rgba(45, 27, 105, 0.3))',
+            ]
+          }}
+          transition={{ duration: 8, repeat: Infinity }}
+        />
+        
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={statsInView ? { opacity: 1, y: 0 } : {}}
@@ -158,219 +226,300 @@ export default function Home() {
             className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
           >
             {[
-              { number: '10K+', label: 'PLAYERS', icon: '👥', color: 'pixel-primary' },
-              { number: '500+', label: 'EVENTS/MONTH', icon: '📅', color: 'pixel-secondary' },
-              { number: '50+', label: 'CITIES', icon: '🏙️', color: 'pixel-accent' },
-              { number: '98%', label: 'HIGH SCORE', icon: '⭐', color: 'pixel-warning' },
+              { number: '10K+', label: 'SPACE EXPLORERS', icon: 'astronaut', color: 'cosmic-starry' },
+              { number: '500+', label: 'MISSIONS/MONTH', icon: 'rocket', color: 'cosmic-magenta' },
+              { number: '50+', label: 'STAR SYSTEMS', icon: 'galaxy', color: 'cosmic-plasma' },
+              { number: '98%', label: 'SUCCESS RATE', icon: 'star', color: 'cosmic-comet' },
             ].map((stat, index) => (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={statsInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                initial={{ opacity: 0, scale: 0.5, rotateY: -90 }}
+                animate={statsInView ? { opacity: 1, scale: 1, rotateY: 0 } : {}}
+                transition={{ duration: 0.8, delay: index * 0.2 }}
                 className="group"
               >
                 <motion.div
                   whileHover={{ 
-                    scale: 1.1,
-                    rotate: [0, -5, 5, 0]
+                    scale: 1.2,
+                    rotateY: 180
                   }}
-                  className={`w-16 h-16 bg-${stat.color} mx-auto mb-4 flex items-center justify-center text-2xl animate-pixel-bounce border-4 border-${stat.color}`}
-                  style={{
-                    clipPath: 'polygon(0 25%, 25% 0, 75% 0, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0 75%)'
-                  }}
-                >
-                  {stat.icon}
-                </motion.div>
-                <motion.div
-                  animate={{ 
-                    scale: [1, 1.05, 1],
-                    textShadow: [
-                      '0 0 5px currentColor',
-                      '0 0 15px currentColor',
-                      '0 0 5px currentColor'
+                  className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-r from-cosmic-midnight to-cosmic-purple flex items-center justify-center text-3xl border-2 border-cosmic-stardust relative overflow-hidden"
+                  animate={{
+                    boxShadow: [
+                      `0 0 20px rgba(233, 69, 96, 0.5)`,
+                      `0 0 40px rgba(233, 69, 96, 0.8)`,
+                      `0 0 20px rgba(233, 69, 96, 0.5)`,
                     ]
                   }}
-                  transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
-                  className={`text-3xl font-bold text-${stat.color} mb-2 pixel-font`}
+                  transition={{ 
+                    boxShadow: { duration: 2, repeat: Infinity, delay: index * 0.5 }
+                  }}
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-cosmic-starry/20 to-cosmic-magenta/20"
+                    animate={{ rotate: [0, 360] }}
+                    transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                  />
+                  <CosmicIcon type={stat.icon as any} className="relative z-10" />
+                </motion.div>
+                
+                <motion.div
+                  animate={{ 
+                    scale: [1, 1.1, 1],
+                    color: ['#e94560', '#00d4ff', '#f39c12', '#e94560']
+                  }}
+                  transition={{ 
+                    scale: { duration: 2, repeat: Infinity, delay: index * 0.3 },
+                    color: { duration: 4, repeat: Infinity, delay: index * 0.5 }
+                  }}
+                  className="text-4xl font-bold mb-3 font-space"
                 >
                   {stat.number}
                 </motion.div>
-                <p className={`text-${stat.color}/80 font-medium pixel-font text-sm`}>{stat.label}</p>
+                <p className="text-cosmic-stardust/80 font-medium font-mono text-sm tracking-wider">
+                  {stat.label}
+                </p>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* Features Section - Game Level Style */}
-      <section ref={featuresRef} className="py-20">
+      {/* Features Section - Constellation Map */}
+      <section ref={featuresRef} className="py-24 relative">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={featuresInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-pixel-primary pixel-font drop-shadow-pixel">
-              GAME FEATURES
-            </h2>
+            <motion.h2 
+              className="text-5xl md:text-7xl font-bold mb-8 font-space bg-gradient-to-r from-cosmic-stardust via-cosmic-magenta to-cosmic-plasma bg-clip-text text-transparent"
+              animate={{
+                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
+              }}
+              transition={{ duration: 5, repeat: Infinity }}
+            >
+              MISSION FEATURES
+            </motion.h2>
+            
             <motion.div
-              animate={{ width: ['0%', '100%', '0%'] }}
-              transition={{ duration: 4, repeat: Infinity }}
-              className="h-1 bg-pixel-primary mx-auto max-w-xs mb-6"
+              animate={{ 
+                width: ['0%', '100%', '0%'],
+                background: [
+                  'linear-gradient(90deg, #e94560, #f39c12)',
+                  'linear-gradient(90deg, #f39c12, #00d4ff)',
+                  'linear-gradient(90deg, #00d4ff, #e94560)',
+                ]
+              }}
+              transition={{ duration: 6, repeat: Infinity }}
+              className="h-1 mx-auto max-w-md mb-8"
             />
-            <p className="text-xl text-pixel-primary/80 max-w-2xl mx-auto retro-font">
-              &gt; UNLOCK EPIC SOCIAL EXPERIENCES
+            
+            <p className="text-xl text-cosmic-stardust/80 max-w-3xl mx-auto font-mono">
+              &gt; ADVANCED SPACE EXPLORATION TECHNOLOGY
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-12 max-w-7xl mx-auto">
             {[
               {
-                icon: '🎯',
-                title: 'SMART DISCOVERY',
-                description: 'AI-POWERED EVENT MATCHING SYSTEM FINDS YOUR PERFECT SOCIAL QUESTS',
-                color: 'pixel-blue',
-                level: 'LVL 1'
+                icon: 'satellite',
+                title: 'QUANTUM DISCOVERY',
+                description: 'AI-POWERED EVENT DETECTION ACROSS MULTIPLE DIMENSIONS AND TIMELINES',
+                constellation: 'ORION',
+                color: 'from-cosmic-plasma to-cosmic-starry'
               },
               {
-                icon: '⚡',
-                title: 'INSTANT RSVP',
-                description: 'ONE-CLICK REGISTRATION WITH REAL-TIME PARTY TRACKING',
-                color: 'pixel-purple',
-                level: 'LVL 2'
+                icon: 'wormhole',
+                title: 'INSTANT TRANSPORT',
+                description: 'TELEPORTATION-SPEED RSVP WITH REAL-TIME QUANTUM ENTANGLEMENT',
+                constellation: 'ANDROMEDA',
+                color: 'from-cosmic-magenta to-cosmic-aurora'
               },
               {
-                icon: '🤝',
-                title: 'GUILD SYSTEM',
-                description: 'CONNECT WITH FELLOW ADVENTURERS AND BUILD YOUR NETWORK',
-                color: 'pixel-orange',
-                level: 'LVL 3'
+                icon: 'nebula',
+                title: 'COSMIC NETWORK',
+                description: 'CONNECT WITH BEINGS ACROSS THE UNIVERSE AND BUILD GALACTIC ALLIANCES',
+                constellation: 'CASSIOPEIA',
+                color: 'from-cosmic-comet to-cosmic-plasma'
               }
             ].map((feature, index) => (
               <motion.div
                 key={feature.title}
-                initial={{ opacity: 0, y: 50 }}
-                animate={featuresInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
+                initial={{ opacity: 0, y: 100, rotateX: -90 }}
+                animate={featuresInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+                transition={{ duration: 1, delay: index * 0.3 }}
                 whileHover={{ 
-                  y: -10, 
-                  scale: 1.02,
-                  boxShadow: `0 0 30px rgba(0, 255, 65, 0.3)`
+                  y: -20, 
+                  scale: 1.05,
+                  rotateY: 5,
+                  boxShadow: '0 20px 60px rgba(233, 69, 96, 0.4)'
                 }}
-                className="group bg-pixel-bg/80 backdrop-blur-sm p-8 border-4 border-pixel-primary/30 hover:border-pixel-primary transition-all duration-300 relative overflow-hidden"
-                style={{
-                  clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)'
-                }}
+                className="group relative bg-gradient-to-br from-cosmic-midnight/80 to-cosmic-purple/60 backdrop-blur-lg p-8 rounded-3xl border border-cosmic-stardust/20 hover:border-cosmic-starry/60 transition-all duration-500 overflow-hidden"
               >
-                {/* Level Badge */}
-                <div className={`absolute top-4 right-4 bg-${feature.color} text-pixel-bg px-3 py-1 text-xs font-bold pixel-font`}>
-                  {feature.level}
+                {/* Constellation Badge */}
+                <div className="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-cosmic-starry/20 to-cosmic-magenta/20 rounded-full border border-cosmic-stardust/30">
+                  <span className="text-xs font-mono text-cosmic-stardust/80 tracking-wider">
+                    {feature.constellation}
+                  </span>
                 </div>
+                
+                {/* Animated Background */}
+                <motion.div
+                  className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
+                  animate={{
+                    scale: [1, 1.1, 1],
+                    rotate: [0, 5, -5, 0]
+                  }}
+                  transition={{ duration: 8, repeat: Infinity }}
+                />
                 
                 <motion.div
                   whileHover={{ 
-                    rotate: [0, -10, 10, 0],
-                    scale: 1.2
+                    scale: 1.3,
+                    rotate: [0, 360],
                   }}
-                  transition={{ duration: 0.6 }}
-                  className={`w-16 h-16 bg-${feature.color} flex items-center justify-center mb-6 text-3xl border-4 border-${feature.color} animate-pixel-float`}
-                  style={{
-                    clipPath: 'polygon(0 25%, 25% 0, 75% 0, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0 75%)'
-                  }}
+                  transition={{ duration: 1 }}
+                  className="w-20 h-20 mx-auto mb-8 rounded-full bg-gradient-to-r from-cosmic-starry/20 to-cosmic-magenta/20 flex items-center justify-center text-4xl border-2 border-cosmic-stardust/30 relative"
                 >
-                  {feature.icon}
+                  <motion.div
+                    className="absolute inset-0 rounded-full"
+                    animate={{
+                      boxShadow: [
+                        '0 0 20px rgba(233, 69, 96, 0.3)',
+                        '0 0 40px rgba(233, 69, 96, 0.6)',
+                        '0 0 20px rgba(233, 69, 96, 0.3)',
+                      ]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity, delay: index * 0.7 }}
+                  />
+                  <CosmicIcon type={feature.icon as any} />
                 </motion.div>
                 
-                <h3 className="text-xl font-bold mb-4 text-pixel-primary pixel-font group-hover:animate-pixel-glow">
+                <h3 className="text-2xl font-bold mb-6 text-cosmic-stardust font-space group-hover:text-cosmic-starry transition-colors">
                   {feature.title}
                 </h3>
                 
-                <p className="text-pixel-primary/80 leading-relaxed retro-font text-sm">
+                <p className="text-cosmic-stardust/80 leading-relaxed font-mono text-sm tracking-wide">
                   {feature.description}
                 </p>
 
-                {/* Animated Border Effect */}
-                <motion.div
-                  animate={{ 
-                    opacity: [0, 1, 0],
-                    scale: [0.8, 1.2, 0.8]
-                  }}
-                  transition={{ 
-                    duration: 2, 
-                    repeat: Infinity, 
-                    delay: index * 0.5 
-                  }}
-                  className={`absolute inset-0 border-2 border-${feature.color} pointer-events-none`}
-                  style={{
-                    clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)'
-                  }}
-                />
+                {/* Floating Particles */}
+                <div className="absolute inset-0 pointer-events-none">
+                  {[...Array(5)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute w-1 h-1 bg-cosmic-stardust rounded-full opacity-0 group-hover:opacity-60"
+                      style={{
+                        left: `${20 + i * 15}%`,
+                        top: `${30 + i * 10}%`,
+                      }}
+                      animate={{
+                        y: [0, -20, 0],
+                        opacity: [0, 0.6, 0],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        delay: i * 0.5,
+                      }}
+                    />
+                  ))}
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section - Boss Battle Style */}
-      <section className="py-20 bg-gradient-to-r from-pixel-bg via-pixel-accent/20 to-pixel-bg relative overflow-hidden border-y-4 border-pixel-primary">
+      {/* CTA Section - Galactic Command Center */}
+      <section className="py-24 relative overflow-hidden">
+        <motion.div
+          className="absolute inset-0"
+          animate={{
+            background: [
+              'radial-gradient(circle at 20% 80%, rgba(114, 9, 183, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(233, 69, 96, 0.3) 0%, transparent 50%)',
+              'radial-gradient(circle at 80% 80%, rgba(233, 69, 96, 0.3) 0%, transparent 50%), radial-gradient(circle at 20% 20%, rgba(0, 212, 255, 0.3) 0%, transparent 50%)',
+              'radial-gradient(circle at 50% 50%, rgba(243, 156, 18, 0.3) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(114, 9, 183, 0.3) 0%, transparent 50%)',
+            ]
+          }}
+          transition={{ duration: 10, repeat: Infinity }}
+        />
+        
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 1 }}
             viewport={{ once: true }}
           >
             <motion.h2 
-              className="text-4xl md:text-5xl font-bold text-pixel-primary mb-6 pixel-font drop-shadow-pixel"
+              className="text-5xl md:text-7xl font-bold text-cosmic-stardust mb-8 font-space"
               animate={{
                 textShadow: [
-                  '0 0 10px #00ff41',
-                  '0 0 20px #00ff41, 0 0 30px #00ff41',
-                  '0 0 10px #00ff41'
+                  '0 0 30px rgba(233, 69, 96, 0.8)',
+                  '0 0 50px rgba(0, 212, 255, 0.8)',
+                  '0 0 40px rgba(243, 156, 18, 0.8)',
+                  '0 0 30px rgba(233, 69, 96, 0.8)',
                 ]
               }}
-              transition={{ duration: 2, repeat: Infinity }}
+              transition={{ duration: 4, repeat: Infinity }}
             >
-              READY TO PLAY?
+              READY FOR LAUNCH?
             </motion.h2>
             
             <motion.p
-              animate={{ opacity: [0.7, 1, 0.7] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="text-xl text-pixel-primary/80 mb-8 max-w-2xl mx-auto retro-font"
+              animate={{ 
+                opacity: [0.8, 1, 0.8],
+                y: [0, -5, 0]
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
+              className="text-2xl text-cosmic-stardust/90 mb-12 max-w-3xl mx-auto font-mono leading-relaxed"
             >
-              &gt; JOIN THE ULTIMATE SOCIAL GAMING EXPERIENCE <br />
-              &gt; PRESS START TO BEGIN YOUR ADVENTURE
+              &gt; INITIATE SEQUENCE FOR GALACTIC EVENT EXPLORATION <br />
+              &gt; ALL SYSTEMS READY FOR INTERSTELLAR ADVENTURE
             </motion.p>
             
             <Link href="/auth/register">
               <motion.div
                 whileHover={{ 
                   scale: 1.1,
-                  boxShadow: '0 0 40px rgba(0, 255, 65, 0.8)'
+                  boxShadow: '0 0 60px rgba(233, 69, 96, 1), 0 0 120px rgba(233, 69, 96, 0.6)'
                 }}
-                whileTap={{ scale: 0.9 }}
+                whileTap={{ scale: 0.95 }}
                 animate={{
-                  y: [0, -5, 0],
+                  y: [0, -10, 0],
                 }}
                 transition={{
-                  y: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+                  y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
                 }}
-                className="inline-flex items-center space-x-4 bg-pixel-primary text-pixel-bg px-12 py-6 font-bold text-xl transition-all duration-300 border-4 border-pixel-primary hover:bg-transparent hover:text-pixel-primary pixel-font animate-pixel-glow"
-                style={{
-                  clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)'
-                }}
+                className="inline-flex items-center space-x-6 bg-gradient-to-r from-cosmic-starry via-cosmic-magenta to-cosmic-plasma text-cosmic-midnight px-16 py-8 font-bold text-2xl transition-all duration-500 rounded-full font-space relative overflow-hidden group"
               >
-                <PixelIcon type="start" className="text-2xl" />
-                <span>PRESS START</span>
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-cosmic-plasma via-cosmic-comet to-cosmic-starry opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  animate={{
+                    x: ['-100%', '100%'],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                />
+                
+                <CosmicIcon type="rocket" className="text-3xl relative z-10" />
+                <span className="relative z-10">INITIATE LAUNCH</span>
                 <motion.span
-                  animate={{ opacity: [0, 1, 0] }}
-                  transition={{ duration: 1, repeat: Infinity }}
-                  className="retro-blink"
+                  animate={{ 
+                    opacity: [0, 1, 0],
+                    scale: [0.8, 1.2, 0.8]
+                  }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  className="text-3xl relative z-10"
                 >
-                  ▶
+                  🚀
                 </motion.span>
               </motion.div>
             </Link>

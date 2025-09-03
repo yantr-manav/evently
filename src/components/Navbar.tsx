@@ -164,7 +164,7 @@ function NavLink({ href, children, icon: Icon }: { href: string; children: React
 function MobileNavLink({ href, children, icon: Icon, primary = false }: { 
   href?: string; 
   children: React.ReactNode; 
-  icon?: any; 
+  icon?: unknown; 
   primary?: boolean 
 }) {
   const content = (

@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.pixel-font {
+  font-family: 'Press Start 2P', 'Courier New', monospace;
+}
+
+.retro-font {
+  font-family: 'Orbitron', 'Courier New', monospace;
+}
+
+.pixel-border {
+  border-image: url("data:image/svg+xml,%3csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m0,0 l0,20 l20,0 l0,-20 z m20,20 l0,20 l20,0 l0,-20 z m20,20 l0,20 l20,0 l0,-20 z m20,20 l0,20 l20,0 l0,-20 z m20,20 l0,20 l20,0 l0,-20 z' fill='%2300ff41'/%3e%3c/svg%3e") 20;
+}
+
+.scanlines::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(transparent 50%, rgba(0, 255, 65, 0.03) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  animation: pixelScan 0.1s linear infinite;
+}
+
+.crt-effect {
+  position: relative;
+}
+
+.crt-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(90deg, transparent 50%, rgba(0, 255, 65, 0.02) 50%),
+    linear-gradient(transparent 50%, rgba(0, 255, 65, 0.02) 50%);
+  background-size: 2px 2px;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+@keyframes pixelScan {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}

@@ -3,18 +3,18 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Filter, Plus, Calendar, MapPin, Users, Clock, Sparkles, TrendingUp } from 'lucide-react'
 import { useInView } from 'react-intersection-observer'
 import { useEventStore } from '@/store/eventStore'
 import { useAuthStore } from '@/store/authStore'
 import { EventRecommendations } from '@/components/EventRecommendations'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
+import { PixelIcon } from '@/components/PixelIcon'
 
-const categories = ['All', 'Workshop', 'Networking', 'Meetup', 'Conference', 'Seminar']
+const categories = ['ALL', 'WORKSHOP', 'NETWORKING', 'MEETUP', 'CONFERENCE', 'SEMINAR']
 
 export default function EventsPage() {
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('All')
+  const [selectedCategory, setSelectedCategory] = useState('ALL')
   const [sortBy, setSortBy] = useState('date')
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
 
@@ -54,77 +54,124 @@ export default function EventsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-24 flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <div className="min-h-screen pt-24 flex items-center justify-center bg-pixel-bg">
+        <motion.div
+          animate={{ 
+            rotate: 360,
+            scale: [1, 1.2, 1]
+          }}
+          transition={{ 
+            rotate: { duration: 2, repeat: Infinity, ease: "linear" },
+            scale: { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
+          }}
+          className="w-16 h-16 bg-pixel-primary border-4 border-pixel-primary animate-pixel-glow"
+          style={{
+            clipPath: 'polygon(0 25%, 25% 0, 75% 0, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0 75%)'
+          }}
+        >
+          <div className="w-full h-full flex items-center justify-center text-pixel-bg text-2xl">
+            🎮
+          </div>
+        </motion.div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-12">
+    <div className="min-h-screen pt-24 pb-12 bg-pixel-bg">
       <div className="container mx-auto px-4">
-        {/* Header */}
+        {/* Retro Gaming Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Discover Events
-          </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Find amazing events happening in your city and connect with like-minded people
+          <motion.h1 
+            className="text-4xl md:text-6xl font-bold mb-4 text-pixel-primary pixel-font drop-shadow-pixel"
+            animate={{
+              textShadow: [
+                '0 0 10px #00ff41',
+                '0 0 20px #00ff41, 0 0 30px #00ff41',
+                '0 0 10px #00ff41'
+              ]
+            }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            LEVEL SELECT
+          </motion.h1>
+          <motion.div
+            animate={{ width: ['0%', '100%', '0%'] }}
+            transition={{ duration: 4, repeat: Infinity }}
+            className="h-1 bg-pixel-primary mx-auto max-w-md mb-6"
+          />
+          <p className="text-lg text-pixel-primary/80 max-w-2xl mx-auto retro-font">
+            &gt; CHOOSE YOUR ADVENTURE <br />
+            &gt; SELECT EVENT QUEST TO BEGIN
           </p>
         </motion.div>
 
         <div className="grid lg:grid-cols-4 gap-8">
-          {/* Sidebar */}
+          {/* Gaming Sidebar */}
           <div className="lg:col-span-1 space-y-6">
-            {/* Search */}
+            {/* Search Console */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-200"
+              className="bg-pixel-bg/80 backdrop-blur-sm border-4 border-pixel-primary p-6"
+              style={{
+                clipPath: 'polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px)'
+              }}
             >
-              <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2">
-                <Search className="w-5 h-5 text-blue-500" />
-                <span>Search Events</span>
+              <h3 className="text-lg font-bold mb-4 text-pixel-primary pixel-font flex items-center space-x-2">
+                <span>🔍</span>
+                <span>SEARCH</span>
               </h3>
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Search events..."
+                  placeholder="ENTER QUEST NAME..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 bg-pixel-bg border-2 border-pixel-primary text-pixel-primary placeholder-pixel-primary/50 font-mono focus:outline-none focus:border-pixel-secondary transition-colors"
+                  style={{
+                    clipPath: 'polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px)'
+                  }}
                 />
               </div>
             </motion.div>
 
-            {/* Categories */}
+            {/* Category Selection */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-200"
+              className="bg-pixel-bg/80 backdrop-blur-sm border-4 border-pixel-secondary p-6"
+              style={{
+                clipPath: 'polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px)'
+              }}
             >
-              <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2">
-                <Filter className="w-5 h-5 text-purple-500" />
-                <span>Categories</span>
+              <h3 className="text-lg font-bold mb-4 text-pixel-secondary pixel-font flex items-center space-x-2">
+                <span>📂</span>
+                <span>CATEGORIES</span>
               </h3>
               <div className="space-y-2">
                 {categories.map((category) => (
                   <motion.button
                     key={category}
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ 
+                      scale: 1.02,
+                      boxShadow: '0 0 15px rgba(0, 255, 65, 0.5)'
+                    }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setSelectedCategory(category)}
-                    className={`w-full text-left px-4 py-2 rounded-xl transition-all ${
+                    className={`w-full text-left px-4 py-2 font-bold pixel-font transition-all border-2 ${
                       selectedCategory === category
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
-                        : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                        ? 'bg-pixel-primary text-pixel-bg border-pixel-primary animate-pixel-glow'
+                        : 'bg-transparent text-pixel-primary border-pixel-primary/30 hover:border-pixel-primary'
                     }`}
+                    style={{
+                      clipPath: 'polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px)'
+                    }}
                   >
                     {category}
                   </motion.button>
@@ -132,25 +179,31 @@ export default function EventsPage() {
               </div>
             </motion.div>
 
-            {/* Sort */}
+            {/* Sort Options */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-200"
+              className="bg-pixel-bg/80 backdrop-blur-sm border-4 border-pixel-accent p-6"
+              style={{
+                clipPath: 'polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px)'
+              }}
             >
-              <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2">
-                <TrendingUp className="w-5 h-5 text-green-500" />
-                <span>Sort By</span>
+              <h3 className="text-lg font-bold mb-4 text-pixel-accent pixel-font flex items-center space-x-2">
+                <span>📊</span>
+                <span>SORT BY</span>
               </h3>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 bg-pixel-bg border-2 border-pixel-accent text-pixel-accent font-mono focus:outline-none focus:border-pixel-secondary transition-colors"
+                style={{
+                  clipPath: 'polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px)'
+                }}
               >
-                <option value="date">Date</option>
-                <option value="popularity">Popularity</option>
-                <option value="name">Name</option>
+                <option value="date">DATE</option>
+                <option value="popularity">POPULARITY</option>
+                <option value="name">NAME</option>
               </select>
             </motion.div>
 
@@ -166,39 +219,48 @@ export default function EventsPage() {
             )}
           </div>
 
-          {/* Main Content */}
+          {/* Main Game Area */}
           <div className="lg:col-span-3">
             {/* Action Bar */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex justify-between items-center mb-8"
+              className="flex justify-between items-center mb-8 bg-pixel-bg/50 border-4 border-pixel-primary p-4"
+              style={{
+                clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)'
+              }}
             >
               <div>
-                <h2 className="text-2xl font-bold text-gray-800">
-                  {filteredEvents.length} Events Found
+                <h2 className="text-2xl font-bold text-pixel-primary pixel-font">
+                  {filteredEvents.length} QUESTS AVAILABLE
                 </h2>
-                <p className="text-gray-600">
-                  {selectedCategory !== 'All' && `in ${selectedCategory}`}
-                  {searchQuery && ` matching "${searchQuery}"`}
+                <p className="text-pixel-primary/80 retro-font">
+                  {selectedCategory !== 'ALL' && `CATEGORY: ${selectedCategory}`}
+                  {searchQuery && ` | SEARCH: "${searchQuery}"`}
                 </p>
               </div>
               
               {user && (
                 <Link href="/events/create">
                   <motion.div
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ 
+                      scale: 1.05,
+                      boxShadow: '0 0 25px rgba(255, 107, 53, 0.6)'
+                    }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl"
+                    className="flex items-center space-x-2 bg-pixel-secondary text-pixel-bg px-6 py-3 font-bold pixel-font border-2 border-pixel-secondary hover:bg-transparent hover:text-pixel-secondary transition-all"
+                    style={{
+                      clipPath: 'polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)'
+                    }}
                   >
-                    <Plus className="w-5 h-5" />
-                    <span>Create Event</span>
+                    <span>➕</span>
+                    <span>CREATE QUEST</span>
                   </motion.div>
                 </Link>
               )}
             </motion.div>
 
-            {/* Events Grid */}
+            {/* Events Grid - Game Level Cards */}
             <div ref={ref} className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
               <AnimatePresence>
                 {sortedEvents.map((event, index) => (
@@ -208,89 +270,134 @@ export default function EventsPage() {
                     animate={inView ? { opacity: 1, y: 0 } : {}}
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    whileHover={{ y: -10, scale: 1.02 }}
+                    whileHover={{ 
+                      y: -10, 
+                      scale: 1.02,
+                      boxShadow: '0 0 30px rgba(0, 255, 65, 0.4)'
+                    }}
                     className="group"
                   >
                     <Link href={`/events/${event.id}`}>
-                      <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 group-hover:border-blue-300">
-                        <div className="relative">
-                          <img 
-                            src={event.image_url || `https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?w=400&h=200&fit=crop`} 
-                            alt={event.title}
-                            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                          <div className="absolute top-4 left-4">
-                            <span className={`px-3 py-1 text-sm font-medium rounded-full ${
-                              event.category === 'Workshop' ? 'bg-blue-100 text-blue-700' :
-                              event.category === 'Networking' ? 'bg-green-100 text-green-700' :
-                              event.category === 'Meetup' ? 'bg-purple-100 text-purple-700' :
-                              event.category === 'Conference' ? 'bg-orange-100 text-orange-700' :
-                              'bg-gray-100 text-gray-700'
+                      <div 
+                        className="bg-pixel-bg/90 backdrop-blur-sm border-4 border-pixel-primary/50 hover:border-pixel-primary transition-all duration-300 overflow-hidden group-hover:animate-pixel-glow"
+                        style={{
+                          clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)'
+                        }}
+                      >
+                        {/* Level Header */}
+                        <div className="relative bg-gradient-to-r from-pixel-primary/20 to-pixel-secondary/20 p-4 border-b-2 border-pixel-primary/30">
+                          <div className="flex justify-between items-center">
+                            <div className={`px-3 py-1 text-xs font-bold pixel-font border-2 ${
+                              event.category === 'Workshop' ? 'bg-pixel-blue text-pixel-bg border-pixel-blue' :
+                              event.category === 'Networking' ? 'bg-pixel-green text-pixel-bg border-pixel-green' :
+                              event.category === 'Meetup' ? 'bg-pixel-purple text-pixel-bg border-pixel-purple' :
+                              event.category === 'Conference' ? 'bg-pixel-orange text-pixel-bg border-pixel-orange' :
+                              'bg-pixel-primary text-pixel-bg border-pixel-primary'
                             }`}>
-                              {event.category}
-                            </span>
+                              {event.category?.toUpperCase()}
+                            </div>
+                            <div className="bg-pixel-bg/80 px-2 py-1 text-xs font-bold pixel-font text-pixel-primary border border-pixel-primary">
+                              LVL {Math.floor(Math.random() * 10) + 1}
+                            </div>
                           </div>
-                          <div className="absolute top-4 right-4">
-                            <div className="bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-medium text-gray-700">
-                              {Math.round(((event.attendee_count || 0) / event.max_attendees) * 100)}% full
+                          
+                          {/* Progress Bar */}
+                          <div className="mt-3">
+                            <div className="flex justify-between text-xs pixel-font text-pixel-primary/80 mb-1">
+                              <span>PLAYERS</span>
+                              <span>{event.attendee_count || 0}/{event.max_attendees}</span>
+                            </div>
+                            <div className="w-full bg-pixel-bg border-2 border-pixel-primary/30 h-2">
+                              <motion.div 
+                                className="h-full bg-pixel-primary"
+                                initial={{ width: 0 }}
+                                animate={{ width: `${Math.round(((event.attendee_count || 0) / event.max_attendees) * 100)}%` }}
+                                transition={{ duration: 1, delay: index * 0.1 }}
+                              />
                             </div>
                           </div>
                         </div>
                         
                         <div className="p-6">
-                          <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-blue-600 transition-colors line-clamp-2">
-                            {event.title}
+                          <h3 className="text-lg font-bold mb-3 text-pixel-primary pixel-font group-hover:animate-pixel-glow line-clamp-2">
+                            {event.title?.toUpperCase()}
                           </h3>
                           
-                          <div className="space-y-2 text-gray-600 mb-4">
+                          <div className="space-y-2 text-pixel-primary/80 mb-4 retro-font text-sm">
                             <div className="flex items-center space-x-2">
-                              <Calendar className="w-4 h-4 text-blue-500" />
-                              <span className="text-sm">
+                              <span>📅</span>
+                              <span>
                                 {new Date(event.date).toLocaleDateString('en-US', { 
                                   weekday: 'short', 
                                   month: 'short', 
                                   day: 'numeric' 
-                                })}
+                                }).toUpperCase()}
                               </span>
-                              <Clock className="w-4 h-4 text-purple-500 ml-2" />
-                              <span className="text-sm">{event.time}</span>
+                              <span className="ml-2">⏰</span>
+                              <span>{event.time}</span>
                             </div>
                             <div className="flex items-center space-x-2">
-                              <MapPin className="w-4 h-4 text-green-500" />
-                              <span className="text-sm truncate">{event.location}</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <Users className="w-4 h-4 text-orange-500" />
-                              <span className="text-sm">
-                                {event.attendee_count || 0}/{event.max_attendees} attending
-                              </span>
+                              <span>📍</span>
+                              <span className="truncate">{event.location?.toUpperCase()}</span>
                             </div>
                           </div>
 
+                          {/* Player Avatars */}
                           <div className="flex justify-between items-center">
                             <div className="flex -space-x-2">
                               {[1, 2, 3].map((i) => (
-                                <div
+                                <motion.div
                                   key={i}
-                                  className="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full border-2 border-white flex items-center justify-center text-white text-xs font-medium"
+                                  animate={{ 
+                                    rotate: [0, 5, -5, 0],
+                                    scale: [1, 1.1, 1]
+                                  }}
+                                  transition={{ 
+                                    duration: 2, 
+                                    repeat: Infinity, 
+                                    delay: i * 0.2 
+                                  }}
+                                  className="w-8 h-8 bg-pixel-primary border-2 border-pixel-bg flex items-center justify-center text-pixel-bg text-xs font-bold"
+                                  style={{
+                                    clipPath: 'polygon(0 25%, 25% 0, 75% 0, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0 75%)'
+                                  }}
                                 >
-                                  {String.fromCharCode(65 + i)}
-                                </div>
+                                  P{i}
+                                </motion.div>
                               ))}
                               {(event.attendee_count || 0) > 3 && (
-                                <div className="w-8 h-8 bg-gray-300 rounded-full border-2 border-white flex items-center justify-center text-gray-600 text-xs font-medium">
+                                <div className="w-8 h-8 bg-pixel-secondary border-2 border-pixel-bg flex items-center justify-center text-pixel-bg text-xs font-bold">
                                   +{(event.attendee_count || 0) - 3}
                                 </div>
                               )}
                             </div>
                             
                             <motion.div
-                              whileHover={{ scale: 1.1 }}
-                              className="text-blue-600 group-hover:text-purple-600 transition-colors"
+                              animate={{ 
+                                rotate: [0, 360],
+                                scale: [1, 1.2, 1]
+                              }}
+                              transition={{ 
+                                duration: 3, 
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                              }}
+                              className="text-pixel-secondary text-xl"
                             >
-                              <Sparkles className="w-5 h-5" />
+                              ⭐
                             </motion.div>
                           </div>
+
+                          {/* Action Button */}
+                          <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            className="mt-4 w-full bg-pixel-primary text-pixel-bg py-2 text-center font-bold pixel-font border-2 border-pixel-primary hover:bg-transparent hover:text-pixel-primary transition-all"
+                            style={{
+                              clipPath: 'polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px)'
+                            }}
+                          >
+                            ENTER QUEST &gt;&gt;
+                          </motion.div>
                         </div>
                       </div>
                     </Link>
@@ -299,26 +406,46 @@ export default function EventsPage() {
               </AnimatePresence>
             </div>
 
+            {/* No Events Found */}
             {sortedEvents.length === 0 && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="text-center py-16"
+                className="text-center py-16 bg-pixel-bg/50 border-4 border-pixel-primary/30"
+                style={{
+                  clipPath: 'polygon(30px 0%, 100% 0%, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0% 100%, 0% 30px)'
+                }}
               >
-                <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-600 mb-2">No events found</h3>
-                <p className="text-gray-500 mb-6">
-                  Try adjusting your search criteria or create a new event!
+                <motion.div
+                  animate={{ 
+                    rotate: [0, 10, -10, 0],
+                    scale: [1, 1.1, 1]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="text-6xl mb-4"
+                >
+                  🎮
+                </motion.div>
+                <h3 className="text-xl font-bold text-pixel-primary pixel-font mb-2">NO QUESTS FOUND</h3>
+                <p className="text-pixel-primary/80 mb-6 retro-font">
+                  &gt; ADJUST SEARCH PARAMETERS <br />
+                  &gt; OR CREATE NEW ADVENTURE
                 </p>
                 {user && (
                   <Link href="/events/create">
                     <motion.div
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ 
+                        scale: 1.05,
+                        boxShadow: '0 0 25px rgba(0, 255, 65, 0.6)'
+                      }}
                       whileTap={{ scale: 0.95 }}
-                      className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-xl font-semibold"
+                      className="inline-flex items-center space-x-2 bg-pixel-primary text-pixel-bg px-8 py-4 font-bold pixel-font border-2 border-pixel-primary hover:bg-transparent hover:text-pixel-primary transition-all"
+                      style={{
+                        clipPath: 'polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)'
+                      }}
                     >
-                      <Plus className="w-5 h-5" />
-                      <span>Create First Event</span>
+                      <span>➕</span>
+                      <span>CREATE FIRST QUEST</span>
                     </motion.div>
                   </Link>
                 )}

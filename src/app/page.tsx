@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Calendar, Users, Sparkles, ArrowRight, Star, Zap, Heart } from 'lucide-react'
 import { useInView } from 'react-intersection-observer'
+import { PixelIcon } from '@/components/PixelIcon'
 
 export default function Home() {
   const [heroRef, heroInView] = useInView({ triggerOnce: true, threshold: 0.1 })
@@ -14,100 +14,133 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section ref={heroRef} className="relative pt-32 pb-20 overflow-hidden">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0">
-          <motion.div
-            animate={{ 
-              rotate: 360,
-              scale: [1, 1.1, 1],
-            }}
-            transition={{ 
-              rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-              scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-            }}
-            className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-20 blur-xl"
-          />
-          <motion.div
-            animate={{ 
-              rotate: -360,
-              y: [0, -20, 0],
-            }}
-            transition={{ 
-              rotate: { duration: 15, repeat: Infinity, ease: "linear" },
-              y: { duration: 3, repeat: Infinity, ease: "easeInOut" }
-            }}
-            className="absolute top-40 right-20 w-32 h-32 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 blur-xl"
-          />
-          <motion.div
-            animate={{ 
-              scale: [1, 1.2, 1],
-              x: [0, 10, 0],
-            }}
-            transition={{ 
-              duration: 5, 
-              repeat: Infinity, 
-              ease: "easeInOut" 
-            }}
-            className="absolute bottom-20 left-1/4 w-16 h-16 bg-gradient-to-r from-green-400 to-blue-400 rounded-full opacity-20 blur-xl"
-          />
-        </div>
-
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={heroInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
           >
+            {/* Pixel Art Logo */}
             <motion.div
-              animate={{ rotate: [0, 10, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="inline-block mb-6"
+              animate={{ 
+                scale: [1, 1.1, 1],
+                rotate: [0, 2, -2, 0]
+              }}
+              transition={{ 
+                duration: 3, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+              className="inline-block mb-8"
             >
-              <Sparkles className="w-16 h-16 text-purple-500 mx-auto" />
+              <div className="relative">
+                <div className="w-24 h-24 mx-auto bg-pixel-primary animate-pixel-glow" 
+                     style={{
+                       clipPath: 'polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)'
+                     }}>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-pixel-bg text-2xl font-bold">🎮</span>
+                </div>
+              </div>
             </motion.div>
             
-            <h1 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent leading-tight">
-              Welcome to
-              <br />
-              <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                EventFlow
-              </span>
-            </h1>
+            {/* Animated Title */}
+            <div className="mb-8">
+              <motion.h1 
+                className="text-4xl md:text-7xl font-bold mb-4 text-pixel-primary drop-shadow-pixel"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={heroInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 1, delay: 0.2 }}
+              >
+                <motion.span
+                  animate={{ 
+                    textShadow: [
+                      '0 0 10px #00ff41',
+                      '0 0 20px #00ff41, 0 0 30px #00ff41',
+                      '0 0 10px #00ff41'
+                    ]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="pixel-font"
+                >
+                  PIXEL
+                </motion.span>
+                <motion.span
+                  animate={{ 
+                    color: ['#ff6b35', '#00d4ff', '#bf00ff', '#ffcc02', '#ff6b35']
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                  className="pixel-font ml-4"
+                >
+                  EVENTS
+                </motion.span>
+              </motion.h1>
+              
+              <motion.div
+                initial={{ width: 0 }}
+                animate={heroInView ? { width: '100%' } : {}}
+                transition={{ duration: 2, delay: 0.5 }}
+                className="h-1 bg-gradient-to-r from-pixel-primary via-pixel-secondary to-pixel-accent mx-auto max-w-md mb-6"
+              />
+            </div>
             
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed"
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-lg md:text-xl text-pixel-primary/80 mb-8 max-w-3xl mx-auto leading-relaxed retro-font"
             >
-              Discover extraordinary events, connect with amazing people, and create unforgettable experiences in your city
+              &gt; LEVEL UP YOUR SOCIAL LIFE! <br />
+              &gt; DISCOVER EPIC EVENTS IN PIXEL-PERFECT STYLE <br />
+              &gt; CONNECT WITH FELLOW GAMERS & CREATORS
             </motion.p>
             
+            {/* Pixel Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-6 justify-center items-center"
             >
               <Link href="/events">
                 <motion.div
-                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: '0 0 30px rgba(0, 255, 65, 0.6)'
+                  }}
                   whileTap={{ scale: 0.95 }}
-                  className="group bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl flex items-center space-x-2"
+                  className="group relative bg-pixel-primary text-pixel-bg px-8 py-4 font-bold text-lg transition-all duration-300 border-4 border-pixel-primary hover:bg-transparent hover:text-pixel-primary pixel-font"
+                  style={{
+                    clipPath: 'polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)'
+                  }}
                 >
-                  <Calendar className="w-5 h-5" />
-                  <span>Explore Events</span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <PixelIcon type="controller" className="inline mr-2" />
+                  START GAME
+                  <motion.div
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                    className="inline ml-2"
+                  >
+                    &gt;&gt;
+                  </motion.div>
                 </motion.div>
               </Link>
               
               <Link href="/auth/register">
                 <motion.div
-                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: '0 0 30px rgba(255, 107, 53, 0.6)'
+                  }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-white hover:bg-gray-50 text-gray-800 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl border border-gray-200"
+                  className="bg-pixel-secondary text-pixel-bg px-8 py-4 font-bold text-lg transition-all duration-300 border-4 border-pixel-secondary hover:bg-transparent hover:text-pixel-secondary pixel-font"
+                  style={{
+                    clipPath: 'polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)'
+                  }}
                 >
-                  Join Community
+                  <PixelIcon type="user" className="inline mr-2" />
+                  JOIN GUILD
                 </motion.div>
               </Link>
             </motion.div>
@@ -115,8 +148,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section ref={statsRef} className="py-16 bg-white/50 backdrop-blur-sm">
+      {/* Stats Section - Retro Gaming Style */}
+      <section ref={statsRef} className="py-16 bg-pixel-bg/50 border-y-4 border-pixel-primary">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -125,10 +158,10 @@ export default function Home() {
             className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
           >
             {[
-              { number: '10K+', label: 'Active Users', icon: Users },
-              { number: '500+', label: 'Events Monthly', icon: Calendar },
-              { number: '50+', label: 'Cities', icon: Star },
-              { number: '98%', label: 'Satisfaction', icon: Heart },
+              { number: '10K+', label: 'PLAYERS', icon: '👥', color: 'pixel-primary' },
+              { number: '500+', label: 'EVENTS/MONTH', icon: '📅', color: 'pixel-secondary' },
+              { number: '50+', label: 'CITIES', icon: '🏙️', color: 'pixel-accent' },
+              { number: '98%', label: 'HIGH SCORE', icon: '⭐', color: 'pixel-warning' },
             ].map((stat, index) => (
               <motion.div
                 key={stat.label}
@@ -138,26 +171,39 @@ export default function Home() {
                 className="group"
               >
                 <motion.div
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:shadow-lg transition-shadow"
+                  whileHover={{ 
+                    scale: 1.1,
+                    rotate: [0, -5, 5, 0]
+                  }}
+                  className={`w-16 h-16 bg-${stat.color} mx-auto mb-4 flex items-center justify-center text-2xl animate-pixel-bounce border-4 border-${stat.color}`}
+                  style={{
+                    clipPath: 'polygon(0 25%, 25% 0, 75% 0, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0 75%)'
+                  }}
                 >
-                  <stat.icon className="w-8 h-8 text-white" />
+                  {stat.icon}
                 </motion.div>
                 <motion.div
-                  animate={{ scale: [1, 1.05, 1] }}
+                  animate={{ 
+                    scale: [1, 1.05, 1],
+                    textShadow: [
+                      '0 0 5px currentColor',
+                      '0 0 15px currentColor',
+                      '0 0 5px currentColor'
+                    ]
+                  }}
                   transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
-                  className="text-3xl font-bold text-gray-800 mb-2"
+                  className={`text-3xl font-bold text-${stat.color} mb-2 pixel-font`}
                 >
                   {stat.number}
                 </motion.div>
-                <p className="text-gray-600 font-medium">{stat.label}</p>
+                <p className={`text-${stat.color}/80 font-medium pixel-font text-sm`}>{stat.label}</p>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Features Section - Game Level Style */}
       <section ref={featuresRef} className="py-20">
         <div className="container mx-auto px-4">
           <motion.div
@@ -166,33 +212,41 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-              Why Choose EventFlow?
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-pixel-primary pixel-font drop-shadow-pixel">
+              GAME FEATURES
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Experience the future of event discovery and management
+            <motion.div
+              animate={{ width: ['0%', '100%', '0%'] }}
+              transition={{ duration: 4, repeat: Infinity }}
+              className="h-1 bg-pixel-primary mx-auto max-w-xs mb-6"
+            />
+            <p className="text-xl text-pixel-primary/80 max-w-2xl mx-auto retro-font">
+              &gt; UNLOCK EPIC SOCIAL EXPERIENCES
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[
               {
-                icon: Calendar,
-                title: 'Smart Discovery',
-                description: 'AI-powered recommendations help you find events perfectly matched to your interests and schedule',
-                gradient: 'from-blue-500 to-cyan-500'
+                icon: '🎯',
+                title: 'SMART DISCOVERY',
+                description: 'AI-POWERED EVENT MATCHING SYSTEM FINDS YOUR PERFECT SOCIAL QUESTS',
+                color: 'pixel-blue',
+                level: 'LVL 1'
               },
               {
-                icon: Zap,
-                title: 'Instant RSVP',
-                description: 'One-click RSVP system with real-time updates and smart calendar integration',
-                gradient: 'from-purple-500 to-pink-500'
+                icon: '⚡',
+                title: 'INSTANT RSVP',
+                description: 'ONE-CLICK REGISTRATION WITH REAL-TIME PARTY TRACKING',
+                color: 'pixel-purple',
+                level: 'LVL 2'
               },
               {
-                icon: Users,
-                title: 'Community Hub',
-                description: 'Connect with like-minded people, build your network, and create lasting relationships',
-                gradient: 'from-green-500 to-teal-500'
+                icon: '🤝',
+                title: 'GUILD SYSTEM',
+                description: 'CONNECT WITH FELLOW ADVENTURERS AND BUILD YOUR NETWORK',
+                color: 'pixel-orange',
+                level: 'LVL 3'
               }
             ].map((feature, index) => (
               <motion.div
@@ -200,44 +254,67 @@ export default function Home() {
                 initial={{ opacity: 0, y: 50 }}
                 animate={featuresInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: index * 0.2 }}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="group bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100"
+                whileHover={{ 
+                  y: -10, 
+                  scale: 1.02,
+                  boxShadow: `0 0 30px rgba(0, 255, 65, 0.3)`
+                }}
+                className="group bg-pixel-bg/80 backdrop-blur-sm p-8 border-4 border-pixel-primary/30 hover:border-pixel-primary transition-all duration-300 relative overflow-hidden"
+                style={{
+                  clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)'
+                }}
               >
+                {/* Level Badge */}
+                <div className={`absolute top-4 right-4 bg-${feature.color} text-pixel-bg px-3 py-1 text-xs font-bold pixel-font`}>
+                  {feature.level}
+                </div>
+                
                 <motion.div
-                  whileHover={{ rotate: 360 }}
+                  whileHover={{ 
+                    rotate: [0, -10, 10, 0],
+                    scale: 1.2
+                  }}
                   transition={{ duration: 0.6 }}
-                  className={`w-16 h-16 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 group-hover:shadow-lg transition-shadow`}
+                  className={`w-16 h-16 bg-${feature.color} flex items-center justify-center mb-6 text-3xl border-4 border-${feature.color} animate-pixel-float`}
+                  style={{
+                    clipPath: 'polygon(0 25%, 25% 0, 75% 0, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0 75%)'
+                  }}
                 >
-                  <feature.icon className="w-8 h-8 text-white" />
+                  {feature.icon}
                 </motion.div>
                 
-                <h3 className="text-2xl font-bold mb-4 text-gray-800 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-blue-600 group-hover:to-purple-600 transition-all">
+                <h3 className="text-xl font-bold mb-4 text-pixel-primary pixel-font group-hover:animate-pixel-glow">
                   {feature.title}
                 </h3>
                 
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-pixel-primary/80 leading-relaxed retro-font text-sm">
                   {feature.description}
                 </p>
+
+                {/* Animated Border Effect */}
+                <motion.div
+                  animate={{ 
+                    opacity: [0, 1, 0],
+                    scale: [0.8, 1.2, 0.8]
+                  }}
+                  transition={{ 
+                    duration: 2, 
+                    repeat: Infinity, 
+                    delay: index * 0.5 
+                  }}
+                  className={`absolute inset-0 border-2 border-${feature.color} pointer-events-none`}
+                  style={{
+                    clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)'
+                  }}
+                />
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/10"></div>
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-20 -right-20 w-40 h-40 bg-white/10 rounded-full"
-        />
-        <motion.div
-          animate={{ rotate: -360 }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-20 -left-20 w-60 h-60 bg-white/10 rounded-full"
-        />
-        
+      {/* CTA Section - Boss Battle Style */}
+      <section className="py-20 bg-gradient-to-r from-pixel-bg via-pixel-accent/20 to-pixel-bg relative overflow-hidden border-y-4 border-pixel-primary">
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -245,21 +322,56 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Ready to Start Your Journey?
-            </h2>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-              Join thousands of event enthusiasts and discover your next amazing experience
-            </p>
+            <motion.h2 
+              className="text-4xl md:text-5xl font-bold text-pixel-primary mb-6 pixel-font drop-shadow-pixel"
+              animate={{
+                textShadow: [
+                  '0 0 10px #00ff41',
+                  '0 0 20px #00ff41, 0 0 30px #00ff41',
+                  '0 0 10px #00ff41'
+                ]
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              READY TO PLAY?
+            </motion.h2>
+            
+            <motion.p
+              animate={{ opacity: [0.7, 1, 0.7] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="text-xl text-pixel-primary/80 mb-8 max-w-2xl mx-auto retro-font"
+            >
+              &gt; JOIN THE ULTIMATE SOCIAL GAMING EXPERIENCE <br />
+              &gt; PRESS START TO BEGIN YOUR ADVENTURE
+            </motion.p>
             
             <Link href="/auth/register">
               <motion.div
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center space-x-2 bg-white text-purple-600 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
+                whileHover={{ 
+                  scale: 1.1,
+                  boxShadow: '0 0 40px rgba(0, 255, 65, 0.8)'
+                }}
+                whileTap={{ scale: 0.9 }}
+                animate={{
+                  y: [0, -5, 0],
+                }}
+                transition={{
+                  y: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+                }}
+                className="inline-flex items-center space-x-4 bg-pixel-primary text-pixel-bg px-12 py-6 font-bold text-xl transition-all duration-300 border-4 border-pixel-primary hover:bg-transparent hover:text-pixel-primary pixel-font animate-pixel-glow"
+                style={{
+                  clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)'
+                }}
               >
-                <span>Get Started Free</span>
-                <ArrowRight className="w-5 h-5" />
+                <PixelIcon type="start" className="text-2xl" />
+                <span>PRESS START</span>
+                <motion.span
+                  animate={{ opacity: [0, 1, 0] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                  className="retro-blink"
+                >
+                  ▶
+                </motion.span>
               </motion.div>
             </Link>
           </motion.div>

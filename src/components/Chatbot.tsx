@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MessageCircle, X, Send, Bot, User, Sparkles } from 'lucide-react'
 
 interface Message {
   id: string
@@ -13,34 +12,34 @@ interface Message {
 
 const botResponses = {
   greeting: [
-    "Hi there! 👋 I'm your EventFlow assistant. How can I help you today?",
-    "Hello! Welcome to EventFlow! I'm here to help you discover amazing events.",
-    "Hey! I'm your friendly event assistant. What would you like to know?"
+    "GREETINGS, PLAYER! 🤖 I'M YOUR PIXELEVENTS AI GUIDE. HOW CAN I ASSIST YOUR QUEST TODAY?",
+    "HELLO ADVENTURER! WELCOME TO THE PIXELEVENTS UNIVERSE! READY TO DISCOVER EPIC QUESTS?",
+    "HEY THERE, GAMER! 🎮 I'M YOUR DIGITAL COMPANION. WHAT ADVENTURE SHALL WE EMBARK ON?"
   ],
   events: [
-    "I can help you find events! Try browsing our Events page or tell me what type of event you're looking for.",
-    "Looking for events? I can help! What category interests you - workshops, networking, conferences, or meetups?",
-    "Great question! You can find events by category, date, or location. What are you interested in?"
+    "QUEST DISCOVERY MODE ACTIVATED! 🎯 CHECK THE LEVEL SELECT SCREEN OR TELL ME WHAT TYPE OF ADVENTURE YOU SEEK!",
+    "SEARCHING EVENT DATABASE... 💾 WHAT CATEGORY INTERESTS YOU? WORKSHOPS, NETWORKING RAIDS, CONFERENCES, OR MEETUP DUNGEONS?",
+    "EXCELLENT CHOICE! 🏆 YOU CAN FILTER QUESTS BY CATEGORY, DATE, OR LOCATION. WHAT'S YOUR PREFERRED GAME MODE?"
   ],
   create: [
-    "Want to create an event? That's awesome! Head to the 'Create Event' page and I'll guide you through it.",
-    "Creating events is easy on EventFlow! Just click 'Create Event' and fill out the details.",
-    "Ready to organize something amazing? The Create Event page has everything you need!"
+    "QUEST CREATION UNLOCKED! 🛠️ HEAD TO THE 'CREATE QUEST' TERMINAL AND I'LL GUIDE YOU THROUGH THE SETUP PROCESS!",
+    "READY TO BECOME A QUEST MASTER? 👑 THE CREATE EVENT INTERFACE HAS ALL THE TOOLS YOU NEED TO BUILD EPIC ADVENTURES!",
+    "TIME TO DESIGN YOUR OWN LEVEL! 🎨 CLICK 'CREATE QUEST' AND LET'S BUILD SOMETHING LEGENDARY TOGETHER!"
   ],
   rsvp: [
-    "RSVPs are simple! Just click on any event and choose 'Going', 'Maybe', or 'Can't Go'.",
-    "You can RSVP to events with just one click! Each event page has RSVP buttons.",
-    "Managing your attendance is easy - just visit any event page and update your RSVP status."
+    "PARTY REGISTRATION IS SIMPLE! 🎪 JUST SELECT ANY QUEST AND CHOOSE YOUR STATUS: GOING, MAYBE, OR CAN'T ATTEND!",
+    "JOINING ADVENTURES IS EASY! ⚡ EACH QUEST PAGE HAS RSVP BUTTONS - ONE CLICK AND YOU'RE IN THE PARTY!",
+    "MANAGING YOUR PARTY STATUS IS A BREEZE! 🌟 VISIT ANY QUEST PAGE AND UPDATE YOUR PARTICIPATION LEVEL!"
   ],
   profile: [
-    "Your profile shows all your events and lets you edit your info. Check it out in the top menu!",
-    "You can manage your profile, see your event history, and update your details from the Profile page.",
-    "Your profile is your event hub - see what you're attending and update your information there."
+    "YOUR PLAYER PROFILE IS YOUR COMMAND CENTER! 🏠 CHECK THE TOP MENU TO VIEW YOUR STATS AND QUEST HISTORY!",
+    "PROFILE MANAGEMENT ACTIVATED! 📊 SEE YOUR ADVENTURE LOG, UPDATE YOUR INFO, AND TRACK YOUR ACHIEVEMENTS!",
+    "YOUR PLAYER HUB AWAITS! 🎮 MANAGE YOUR PROFILE, VIEW COMPLETED QUESTS, AND CUSTOMIZE YOUR SETTINGS!"
   ],
   help: [
-    "I'm here to help! Ask me about finding events, creating events, RSVPs, or anything else about EventFlow.",
-    "Need assistance? I can help with events, account questions, or just chat about what you're looking for!",
-    "I'm your EventFlow guide! Feel free to ask about features, events, or how to get the most out of the platform."
+    "I'M YOUR DIGITAL GUIDE! 🤖 ASK ME ABOUT QUEST DISCOVERY, EVENT CREATION, PARTY MANAGEMENT, OR ANY PIXELEVENTS FEATURES!",
+    "ASSISTANCE PROTOCOL ENGAGED! 💡 I CAN HELP WITH QUESTS, ACCOUNT MANAGEMENT, OR JUST CHAT ABOUT YOUR GAMING ADVENTURES!",
+    "I'M HERE TO LEVEL UP YOUR EXPERIENCE! 🚀 FEEL FREE TO ASK ABOUT FEATURES, QUESTS, OR HOW TO MAXIMIZE YOUR PIXELEVENTS JOURNEY!"
   ]
 }
 
@@ -66,7 +65,7 @@ export function Chatbot() {
         addBotMessage(getRandomResponse('greeting'))
       }, 500)
     }
-  }, [isOpen])
+  }, [isOpen, messages.length])
 
   const getRandomResponse = (category: keyof typeof botResponses) => {
     const responses = botResponses[category]
@@ -109,7 +108,7 @@ export function Chatbot() {
     } else if (message.includes('help') || message.includes('how') || message.includes('what')) {
       return getRandomResponse('help')
     } else {
-      return "That's interesting! I can help you with finding events, creating events, RSVPs, and managing your profile. What would you like to know more about?"
+      return "INTERESTING INPUT! 🤔 I CAN ASSIST WITH QUEST DISCOVERY, EVENT CREATION, PARTY MANAGEMENT, AND PROFILE CUSTOMIZATION. WHAT WOULD YOU LIKE TO EXPLORE?"
     }
   }
 
@@ -136,55 +135,87 @@ export function Chatbot() {
 
   return (
     <>
-      {/* Chat Button */}
+      {/* Pixel Chat Button */}
       <motion.button
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ 
+          scale: 1.1,
+          boxShadow: '0 0 25px rgba(0, 255, 65, 0.6)'
+        }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-lg flex items-center justify-center text-white transition-all duration-300 ${
+        className={`fixed bottom-6 right-6 z-50 w-16 h-16 bg-pixel-primary border-4 border-pixel-primary animate-pixel-glow flex items-center justify-center text-pixel-bg transition-all duration-300 ${
           isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
+        style={{
+          clipPath: 'polygon(0 25%, 25% 0, 75% 0, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0 75%)'
+        }}
       >
-        <MessageCircle className="w-6 h-6" />
+        <span className="text-2xl">🤖</span>
         <motion.div
-          animate={{ scale: [1, 1.2, 1] }}
+          animate={{ 
+            scale: [1, 1.3, 1],
+            opacity: [0.5, 1, 0.5]
+          }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-30"
+          className="absolute inset-0 bg-pixel-primary border-4 border-pixel-primary"
+          style={{
+            clipPath: 'polygon(0 25%, 25% 0, 75% 0, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0 75%)'
+          }}
         />
       </motion.button>
 
-      {/* Chat Window */}
+      {/* Retro Chat Terminal */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, scale: 0.8, y: 100 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 100 }}
-            className="fixed bottom-6 right-6 z-50 w-96 h-[500px] bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden"
+            className="fixed bottom-6 right-6 z-50 w-96 h-[500px] bg-pixel-bg border-4 border-pixel-primary flex flex-col overflow-hidden"
+            style={{
+              clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)'
+            }}
           >
-            {/* Header */}
-            <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-4 flex items-center justify-between">
+            {/* Terminal Header */}
+            <div className="bg-gradient-to-r from-pixel-primary/20 to-pixel-secondary/20 p-4 flex items-center justify-between border-b-2 border-pixel-primary/30">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                  <Bot className="w-5 h-5 text-white" />
-                </div>
+                <motion.div
+                  animate={{ 
+                    rotate: [0, 360],
+                    scale: [1, 1.2, 1]
+                  }}
+                  transition={{ 
+                    rotate: { duration: 4, repeat: Infinity, ease: "linear" },
+                    scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+                  }}
+                  className="w-8 h-8 bg-pixel-primary border-2 border-pixel-primary flex items-center justify-center"
+                  style={{
+                    clipPath: 'polygon(0 25%, 25% 0, 75% 0, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0 75%)'
+                  }}
+                >
+                  <span className="text-pixel-bg text-sm">🤖</span>
+                </motion.div>
                 <div>
-                  <h3 className="text-white font-semibold">EventFlow Assistant</h3>
-                  <p className="text-white/80 text-sm">Always here to help!</p>
+                  <h3 className="text-pixel-primary font-bold pixel-font">AI GUIDE v3.0</h3>
+                  <p className="text-pixel-primary/80 text-xs retro-font">ALWAYS ONLINE</p>
                 </div>
               </div>
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => setIsOpen(false)}
-                className="text-white/80 hover:text-white"
-              >
-                <X className="w-5 h-5" />
-              </motion.button>
+              
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-pixel-success animate-pixel-pulse"></div>
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setIsOpen(false)}
+                  className="text-pixel-primary hover:text-pixel-error transition-colors"
+                >
+                  <span className="text-lg">✕</span>
+                </motion.button>
+              </div>
             </div>
 
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {/* Messages Terminal */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-pixel-bg/50">
               {messages.map((message) => (
                 <motion.div
                   key={message.id}
@@ -192,26 +223,28 @@ export function Chatbot() {
                   animate={{ opacity: 1, y: 0 }}
                   className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
                 >
-                  <div className={`flex items-start space-x-2 max-w-[80%] ${
+                  <div className={`flex items-start space-x-2 max-w-[85%] ${
                     message.isBot ? 'flex-row' : 'flex-row-reverse space-x-reverse'
                   }`}>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    <div className={`w-8 h-8 border-2 flex items-center justify-center ${
                       message.isBot 
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-500' 
-                        : 'bg-gray-300'
-                    }`}>
-                      {message.isBot ? (
-                        <Bot className="w-4 h-4 text-white" />
-                      ) : (
-                        <User className="w-4 h-4 text-gray-600" />
-                      )}
+                        ? 'bg-pixel-primary border-pixel-primary text-pixel-bg' 
+                        : 'bg-pixel-secondary border-pixel-secondary text-pixel-bg'
+                    }`}
+                    style={{
+                      clipPath: 'polygon(0 25%, 25% 0, 75% 0, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0 75%)'
+                    }}>
+                      {message.isBot ? '🤖' : '👤'}
                     </div>
-                    <div className={`px-4 py-2 rounded-2xl ${
+                    <div className={`px-4 py-2 border-2 ${
                       message.isBot
-                        ? 'bg-gray-100 text-gray-800'
-                        : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white'
-                    }`}>
-                      <p className="text-sm">{message.text}</p>
+                        ? 'bg-pixel-bg/80 border-pixel-primary text-pixel-primary'
+                        : 'bg-pixel-secondary/20 border-pixel-secondary text-pixel-primary'
+                    }`}
+                    style={{
+                      clipPath: 'polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px)'
+                    }}>
+                      <p className="text-sm font-mono leading-relaxed">{message.text}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -224,25 +257,31 @@ export function Chatbot() {
                   className="flex justify-start"
                 >
                   <div className="flex items-start space-x-2">
-                    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-                      <Bot className="w-4 h-4 text-white" />
+                    <div className="w-8 h-8 bg-pixel-primary border-2 border-pixel-primary flex items-center justify-center text-pixel-bg"
+                         style={{
+                           clipPath: 'polygon(0 25%, 25% 0, 75% 0, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0 75%)'
+                         }}>
+                      🤖
                     </div>
-                    <div className="bg-gray-100 px-4 py-2 rounded-2xl">
+                    <div className="bg-pixel-bg/80 border-2 border-pixel-primary px-4 py-2"
+                         style={{
+                           clipPath: 'polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px)'
+                         }}>
                       <div className="flex space-x-1">
                         <motion.div
-                          animate={{ scale: [1, 1.2, 1] }}
-                          transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
-                          className="w-2 h-2 bg-gray-400 rounded-full"
+                          animate={{ opacity: [0.3, 1, 0.3] }}
+                          transition={{ duration: 0.8, repeat: Infinity, delay: 0 }}
+                          className="w-2 h-2 bg-pixel-primary"
                         />
                         <motion.div
-                          animate={{ scale: [1, 1.2, 1] }}
-                          transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
-                          className="w-2 h-2 bg-gray-400 rounded-full"
+                          animate={{ opacity: [0.3, 1, 0.3] }}
+                          transition={{ duration: 0.8, repeat: Infinity, delay: 0.2 }}
+                          className="w-2 h-2 bg-pixel-primary"
                         />
                         <motion.div
-                          animate={{ scale: [1, 1.2, 1] }}
-                          transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
-                          className="w-2 h-2 bg-gray-400 rounded-full"
+                          animate={{ opacity: [0.3, 1, 0.3] }}
+                          transition={{ duration: 0.8, repeat: Infinity, delay: 0.4 }}
+                          className="w-2 h-2 bg-pixel-primary"
                         />
                       </div>
                     </div>
@@ -252,28 +291,54 @@ export function Chatbot() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input */}
-            <div className="p-4 border-t border-gray-200">
+            {/* Input Terminal */}
+            <div className="p-4 border-t-2 border-pixel-primary/30 bg-pixel-bg/80">
               <div className="flex space-x-2">
                 <input
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Ask me anything about EventFlow..."
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="TYPE YOUR MESSAGE..."
+                  className="flex-1 px-4 py-2 bg-pixel-bg border-2 border-pixel-primary text-pixel-primary placeholder-pixel-primary/50 font-mono focus:outline-none focus:border-pixel-secondary transition-colors"
+                  style={{
+                    clipPath: 'polygon(6px 0%, 100% 0%, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0% 100%, 0% 6px)'
+                  }}
                 />
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: '0 0 15px rgba(0, 255, 65, 0.5)'
+                  }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleSendMessage}
                   disabled={!inputValue.trim()}
-                  className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-12 h-12 bg-pixel-primary border-2 border-pixel-primary flex items-center justify-center text-pixel-bg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  style={{
+                    clipPath: 'polygon(6px 0%, 100% 0%, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0% 100%, 0% 6px)'
+                  }}
                 >
-                  <Send className="w-4 h-4" />
+                  <span className="text-lg">▶</span>
                 </motion.button>
               </div>
             </div>
+
+            {/* Animated Border Effect */}
+            <motion.div
+              animate={{ 
+                opacity: [0.3, 1, 0.3],
+                scale: [0.98, 1.02, 0.98]
+              }}
+              transition={{ 
+                duration: 4, 
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="absolute inset-0 border-2 border-pixel-primary pointer-events-none"
+              style={{
+                clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)'
+              }}
+            />
           </motion.div>
         )}
       </AnimatePresence>

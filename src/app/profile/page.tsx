@@ -2,58 +2,58 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
+import { PixelIcon } from '@/components/PixelIcon'
 
 // Mock user data
 const userData = {
-  name: 'John Doe',
-  email: 'john.doe@example.com',
-  bio: 'Full-stack developer passionate about React and Node.js. Love attending tech meetups and learning new technologies.',
-  location: 'San Francisco, CA',
+  name: 'PIXEL_WARRIOR',
+  email: 'pixel.warrior@domain.com',
+  bio: 'LEGENDARY QUEST MASTER | LEVEL 42 DEVELOPER | SPECIALIZES IN REACT & NODE.JS DUNGEONS',
+  location: 'SAN FRANCISCO DIGITAL REALM',
   joinDate: '2024-03-15',
   eventsAttended: 12,
-  eventsCreated: 3
+  eventsCreated: 3,
+  level: 42,
+  experience: 8750,
+  nextLevelExp: 10000,
+  achievements: ['FIRST_QUEST', 'NETWORK_MASTER', 'CODE_WARRIOR', 'EVENT_CREATOR']
 }
 
 // Mock events data
 const myEvents = [
   {
     id: 1,
-    title: 'React Next.js Workshop',
+    title: 'REACT NEXT.JS WORKSHOP QUEST',
     date: '2025-01-15',
     status: 'going',
-    type: 'attending'
+    type: 'attending',
+    difficulty: 'MEDIUM',
+    reward: 150
   },
   {
     id: 2,
-    title: 'Startup Networking Night',
+    title: 'STARTUP NETWORKING RAID',
     date: '2025-01-20',
     status: 'maybe',
-    type: 'attending'
+    type: 'attending',
+    difficulty: 'EASY',
+    reward: 100
   },
   {
     id: 3,
-    title: 'JavaScript Fundamentals',
+    title: 'JAVASCRIPT FUNDAMENTALS DUNGEON',
     date: '2024-12-10',
     status: 'completed',
-    type: 'created'
+    type: 'created',
+    difficulty: 'HARD',
+    reward: 300
   }
 ]
 
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false)
-  const [formData, setFormData] = useState({
-    name: userData.name,
-    bio: userData.bio,
-    location: userData.location
-  })
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle profile update
-    console.log('Profile updated:', formData)
-    setIsEditing(false)
-  }
-
+  const [activeTab, setActiveTa
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,

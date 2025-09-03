@@ -1,86 +1,97 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Check, Clock, X, Users } from 'lucide-react'
-import { useAuthStore } from '@/store/authStore'
-import { useEventStore } from '@/store/eventStore'
-import toast from 'react-hot-toast'
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Check, Clock, X, Users } from "lucide-react";
+import { useAuthStore } from "@/store/authStore";
+import { useEventStore } from "@/store/eventStore";
+import toast from "react-hot-toast";
 
 interface RSVPButtonProps {
-  eventId: string
-  currentStatus?: 'going' | 'maybe' | 'not_going' | null
-  attendeeCount?: number
-  maxAttendees?: number
+  eventId: string;
+  currentStatus?: "going" | "maybe" | "not_going" | null;
+  attendeeCount?: number;
+  maxAttendees?: number;
 }
 
-export function RSVPButton({ eventId, currentStatus, attendeeCount = 0, maxAttendees = 0 }: RSVPButtonProps) {
-  const [loading, setLoading] = useState(false)
-  const { user } = useAuthStore()
-  const { updateRSVP } = useEventStore()
+export function RSVPButton({
+  eventId,
+  currentStatus,
+  attendeeCount = 0,
+  maxAttendees = 0,
+}: RSVPButtonProps) {
+  const [loading, setLoading] = useState(false);
+  const { user } = useAuthStore();
+  const { updateRSVP } = useEventStore();
 
-  const handleRSVP = async (status: 'going' | 'maybe' | 'not_going') => {
+  const handleRSVP = async (status: "going" | "maybe" | "not_going") => {
     if (!user) {
-      toast.error('Please sign in to RSVP')
-      return
+      toast.error("Please sign in to RSVP");
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
     try {
-      const { error } = await updateRSVP(eventId, status)
-      
+      const { error } = await updateRSVP(eventId, status);
+
       if (error) {
-        toast.error(error)
+        toast.error(error);
       } else {
-        const statusText = status === 'going' ? 'Going' : status === 'maybe' ? 'Maybe' : 'Not Going'
-        toast.success(`RSVP updated to ${statusText}`)
+        const statusText =
+          status === "going"
+            ? "Going"
+            : status === "maybe"
+            ? "Maybe"
+            : "Not Going";
+        toast.success(`RSVP updated to ${statusText}`);
       }
     } catch (error) {
-      toast.error('Failed to update RSVP')
+      toast.error("Failed to update RSVP");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const getButtonStyle = (status: 'going' | 'maybe' | 'not_going') => {
-    const isActive = currentStatus === status
-    const baseClasses = "flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300"
-    
+  const getButtonStyle = (status: "going" | "maybe" | "not_going") => {
+    const isActive = currentStatus === status;
+    const baseClasses =
+      "flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300";
+
     if (isActive) {
       switch (status) {
-        case 'going':
-          return `${baseClasses} bg-green-500 text-white shadow-lg`
-        case 'maybe':
-          return `${baseClasses} bg-yellow-500 text-white shadow-lg`
-        case 'not_going':
-          return `${baseClasses} bg-red-500 text-white shadow-lg`
+        case "going":
+          return `${baseClasses} bg-green-500 text-white shadow-lg`;
+        case "maybe":
+          return `${baseClasses} bg-yellow-500 text-white shadow-lg`;
+        case "not_going":
+          return `${baseClasses} bg-red-500 text-white shadow-lg`;
       }
     }
-    
-    return `${baseClasses} bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300`
-  }
 
-  const getIcon = (status: 'going' | 'maybe' | 'not_going') => {
-    switch (status) {
-      case 'going':
-        return <Check className="w-5 h-5" />
-      case 'maybe':
-        return <Clock className="w-5 h-5" />
-      case 'not_going':
-        return <X className="w-5 h-5" />
-    }
-  }
+    return `${baseClasses} bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300`;
+  };
 
-  const getLabel = (status: 'going' | 'maybe' | 'not_going') => {
+  const getIcon = (status: "going" | "maybe" | "not_going") => {
     switch (status) {
-      case 'going':
-        return 'Going'
-      case 'maybe':
-        return 'Maybe'
-      case 'not_going':
-        return "Can't Go"
+      case "going":
+        return <Check className="w-5 h-5" />;
+      case "maybe":
+        return <Clock className="w-5 h-5" />;
+      case "not_going":
+        return <X className="w-5 h-5" />;
     }
-  }
+  };
+
+  const getLabel = (status: "going" | "maybe" | "not_going") => {
+    switch (status) {
+      case "going":
+        return "Going";
+      case "maybe":
+        return "Maybe";
+      case "not_going":
+        return "Can't Go";
+    }
+  };
 
   if (!user) {
     return (
@@ -89,7 +100,7 @@ export function RSVPButton({ eventId, currentStatus, attendeeCount = 0, maxAtten
           Please sign in to RSVP to this event
         </p>
       </div>
-    )
+    );
   }
 
   return (
@@ -98,12 +109,14 @@ export function RSVPButton({ eventId, currentStatus, attendeeCount = 0, maxAtten
         <h3 className="text-lg font-semibold text-gray-800">RSVP Status</h3>
         <div className="flex items-center space-x-2 text-sm text-gray-600">
           <Users className="w-4 h-4" />
-          <span>{attendeeCount}/{maxAttendees} attending</span>
+          <span>
+            {attendeeCount}/{maxAttendees} attending
+          </span>
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {(['going', 'maybe', 'not_going'] as const).map((status) => (
+        {(["going", "maybe", "not_going"] as const).map((status) => (
           <motion.button
             key={status}
             whileHover={{ scale: 1.02 }}
@@ -127,9 +140,10 @@ export function RSVPButton({ eventId, currentStatus, attendeeCount = 0, maxAtten
 
       {currentStatus && (
         <div className="mt-4 text-center text-sm text-gray-600">
-          Your current status: <span className="font-semibold">{getLabel(currentStatus)}</span>
+          Your current status:{" "}
+          <span className="font-semibold">{getLabel(currentStatus)}</span>
         </div>
       )}
     </div>
-  )
+  );
 }

@@ -4,9 +4,9 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Mail, Lock, User, Eye, EyeOff, Sparkles, Check, X } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 import toast from 'react-hot-toast'
+import { PixelIcon } from '@/components/PixelIcon'
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -27,12 +27,12 @@ export default function RegisterPage() {
     e.preventDefault()
     
     if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match')
+      toast.error('PASSWORD MISMATCH ERROR!')
       return
     }
 
     if (!agreedToTerms) {
-      toast.error('Please agree to the terms and conditions')
+      toast.error('TERMS AGREEMENT REQUIRED!')
       return
     }
 
@@ -42,13 +42,13 @@ export default function RegisterPage() {
       const { error } = await signUp(formData.email, formData.password, formData.name)
       
       if (error) {
-        toast.error(error)
+        toast.error('REGISTRATION FAILED: ' + error.toUpperCase())
       } else {
-        toast.success('Account created successfully! Please check your email to verify your account.')
+        toast.success('PLAYER CREATED! CHECK EMAIL FOR VERIFICATION!')
         router.push('/auth/login')
       }
     } catch (error) {
-      toast.error('An unexpected error occurred')
+      toast.error('SYSTEM ERROR: REGISTRATION FAILED')
     } finally {
       setLoading(false)
     }
@@ -74,46 +74,93 @@ export default function RegisterPage() {
   const strength = passwordStrength(formData.password)
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 pt-24">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 pt-24 bg-pixel-bg">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="max-w-md w-full space-y-8"
       >
+        {/* Character Creation Header */}
         <div className="text-center">
           <motion.div
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ 
+              rotate: [0, 360],
+              scale: [1, 1.2, 1]
+            }}
+            transition={{ 
+              rotate: { duration: 4, repeat: Infinity, ease: "linear" },
+              scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+            }}
             className="inline-block mb-6"
           >
-            <Sparkles className="w-12 h-12 text-purple-500 mx-auto" />
+            <div className="w-16 h-16 bg-pixel-secondary mx-auto animate-pixel-glow border-4 border-pixel-secondary flex items-center justify-center"
+                 style={{
+                   clipPath: 'polygon(0 25%, 25% 0, 75% 0, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0 75%)'
+                 }}>
+              <span className="text-pixel-bg text-2xl">👤</span>
+            </div>
           </motion.div>
           
-          <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Join EventFlow
-          </h2>
-          <p className="mt-2 text-gray-600">
-            Already have an account?{' '}
-            <Link href="/auth/login" className="font-medium text-blue-600 hover:text-blue-500 transition-colors">
-              Sign in here
-            </Link>
+          <motion.h2 
+            className="text-4xl font-bold text-pixel-secondary pixel-font drop-shadow-pixel mb-4"
+            animate={{
+              textShadow: [
+                '0 0 10px #ff6b35',
+                '0 0 20px #ff6b35, 0 0 30px #ff6b35',
+                '0 0 10px #ff6b35'
+              ]
+            }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            CREATE PLAYER
+          </motion.h2>
+          
+          <motion.div
+            animate={{ width: ['0%', '100%', '0%'] }}
+            transition={{ duration: 3, repeat: Infinity }}
+            className="h-1 bg-pixel-secondary mx-auto max-w-xs mb-4"
+          />
+          
+          <p className="text-pixel-primary/80 retro-font">
+            &gt; INITIALIZE NEW PLAYER PROFILE <br />
+            <span className="text-sm">
+              EXISTING PLAYER? {' '}
+              <Link href="/auth/login" className="text-pixel-accent hover:text-pixel-warning transition-colors font-bold">
+                ACCESS ACCOUNT
+              </Link>
+            </span>
           </p>
         </div>
         
+        {/* Character Creation Terminal */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="bg-white/80 backdrop-blur-sm py-8 px-6 shadow-xl rounded-2xl border border-gray-200"
+          className="bg-pixel-bg/90 backdrop-blur-sm border-4 border-pixel-secondary p-8 relative overflow-hidden"
+          style={{
+            clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)'
+          }}
         >
+          {/* Terminal Header */}
+          <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-pixel-secondary/30">
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-pixel-success animate-pixel-pulse"></div>
+              <div className="w-3 h-3 bg-pixel-warning animate-pixel-pulse" style={{ animationDelay: '0.2s' }}></div>
+              <div className="w-3 h-3 bg-pixel-error animate-pixel-pulse" style={{ animationDelay: '0.4s' }}></div>
+            </div>
+            <span className="text-pixel-primary/60 pixel-font text-xs">CHAR_CREATOR_v1.0</span>
+          </div>
+
           <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* Player Name */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                Full Name
+              <label htmlFor="name" className="block text-sm font-bold text-pixel-secondary pixel-font mb-2">
+                &gt; PLAYER_NAME:
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pixel-secondary">👤</span>
                 <input
                   id="name"
                   name="name"
@@ -122,18 +169,22 @@ export default function RegisterPage() {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  placeholder="Enter your full name"
+                  className="w-full pl-10 pr-4 py-3 bg-pixel-bg border-2 border-pixel-secondary text-pixel-primary placeholder-pixel-primary/50 font-mono focus:outline-none focus:border-pixel-accent transition-colors"
+                  placeholder="ENTER_PLAYER_NAME"
+                  style={{
+                    clipPath: 'polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px)'
+                  }}
                 />
               </div>
             </div>
 
+            {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email address
+              <label htmlFor="email" className="block text-sm font-bold text-pixel-secondary pixel-font mb-2">
+                &gt; EMAIL_ADDRESS:
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pixel-secondary">📧</span>
                 <input
                   id="email"
                   name="email"
@@ -142,18 +193,22 @@ export default function RegisterPage() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  placeholder="Enter your email"
+                  className="w-full pl-10 pr-4 py-3 bg-pixel-bg border-2 border-pixel-secondary text-pixel-primary placeholder-pixel-primary/50 font-mono focus:outline-none focus:border-pixel-accent transition-colors"
+                  placeholder="PLAYER@DOMAIN.COM"
+                  style={{
+                    clipPath: 'polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px)'
+                  }}
                 />
               </div>
             </div>
 
+            {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+              <label htmlFor="password" className="block text-sm font-bold text-pixel-secondary pixel-font mb-2">
+                &gt; PASSWORD:
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pixel-secondary">🔒</span>
                 <input
                   id="password"
                   name="password"
@@ -162,48 +217,55 @@ export default function RegisterPage() {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  placeholder="Create a password"
+                  className="w-full pl-10 pr-12 py-3 bg-pixel-bg border-2 border-pixel-secondary text-pixel-primary placeholder-pixel-primary/50 font-mono focus:outline-none focus:border-pixel-accent transition-colors"
+                  placeholder="CREATE_SECURE_PASSWORD"
+                  style={{
+                    clipPath: 'polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px)'
+                  }}
                 />
-                <button
+                <motion.button
                   type="button"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-pixel-secondary hover:text-pixel-accent transition-colors"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                </button>
+                  {showPassword ? '🙈' : '👁️'}
+                </motion.button>
               </div>
               
-              {/* Password Strength Indicator */}
+              {/* Password Strength Meter */}
               {formData.password && (
-                <div className="mt-2">
-                  <div className="flex space-x-1 mb-2">
+                <div className="mt-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs pixel-font text-pixel-primary/80">SECURITY_LEVEL:</span>
+                    <span className="text-xs pixel-font text-pixel-primary">
+                      {strength <= 2 ? 'WEAK' : strength <= 3 ? 'MEDIUM' : 'STRONG'}
+                    </span>
+                  </div>
+                  <div className="flex space-x-1">
                     {[1, 2, 3, 4, 5].map((level) => (
                       <div
                         key={level}
-                        className={`h-1 flex-1 rounded-full ${
+                        className={`h-2 flex-1 ${
                           strength >= level
-                            ? strength <= 2 ? 'bg-red-400' : strength <= 3 ? 'bg-yellow-400' : 'bg-green-400'
-                            : 'bg-gray-200'
+                            ? strength <= 2 ? 'bg-pixel-error' : strength <= 3 ? 'bg-pixel-warning' : 'bg-pixel-success'
+                            : 'bg-pixel-bg border border-pixel-primary/30'
                         }`}
                       />
                     ))}
                   </div>
-                  <p className={`text-xs ${
-                    strength <= 2 ? 'text-red-600' : strength <= 3 ? 'text-yellow-600' : 'text-green-600'
-                  }`}>
-                    {strength <= 2 ? 'Weak password' : strength <= 3 ? 'Medium password' : 'Strong password'}
-                  </p>
                 </div>
               )}
             </div>
 
+            {/* Confirm Password */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                Confirm Password
+              <label htmlFor="confirmPassword" className="block text-sm font-bold text-pixel-secondary pixel-font mb-2">
+                &gt; CONFIRM_PASSWORD:
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pixel-secondary">🔐</span>
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
@@ -212,73 +274,174 @@ export default function RegisterPage() {
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  placeholder="Confirm your password"
+                  className="w-full pl-10 pr-12 py-3 bg-pixel-bg border-2 border-pixel-secondary text-pixel-primary placeholder-pixel-primary/50 font-mono focus:outline-none focus:border-pixel-accent transition-colors"
+                  placeholder="REPEAT_PASSWORD"
+                  style={{
+                    clipPath: 'polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px)'
+                  }}
                 />
-                <button
+                <motion.button
                   type="button"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-pixel-secondary hover:text-pixel-accent transition-colors"
                 >
-                  {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                </button>
+                  {showConfirmPassword ? '🙈' : '👁️'}
+                </motion.button>
               </div>
               
               {formData.confirmPassword && (
                 <div className="mt-2 flex items-center space-x-2">
                   {formData.password === formData.confirmPassword ? (
                     <>
-                      <Check className="w-4 h-4 text-green-500" />
-                      <span className="text-sm text-green-600">Passwords match</span>
+                      <span className="text-pixel-success">✓</span>
+                      <span className="text-sm pixel-font text-pixel-success">PASSWORDS_MATCH</span>
                     </>
                   ) : (
                     <>
-                      <X className="w-4 h-4 text-red-500" />
-                      <span className="text-sm text-red-600">Passwords don&apos;t match</span>
+                      <span className="text-pixel-error">✗</span>
+                      <span className="text-sm pixel-font text-pixel-error">PASSWORD_MISMATCH</span>
                     </>
                   )}
                 </div>
               )}
             </div>
 
-            <div className="flex items-start">
+            {/* Terms Agreement */}
+            <div className="flex items-start space-x-3">
               <input
                 id="terms"
                 name="terms"
                 type="checkbox"
                 checked={agreedToTerms}
                 onChange={(e) => setAgreedToTerms(e.target.checked)}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1"
+                className="h-4 w-4 bg-pixel-bg border-2 border-pixel-secondary text-pixel-secondary focus:ring-pixel-secondary mt-1"
               />
-              <label htmlFor="terms" className="ml-3 block text-sm text-gray-700">
-                I agree to the{' '}
-                <Link href="/terms" className="text-blue-600 hover:text-blue-500 underline">
-                  Terms of Service
+              <label htmlFor="terms" className="block text-sm pixel-font text-pixel-primary">
+                I AGREE TO THE{' '}
+                <Link href="/terms" className="text-pixel-accent hover:text-pixel-warning underline">
+                  TERMS_OF_SERVICE
                 </Link>{' '}
-                and{' '}
-                <Link href="/privacy" className="text-blue-600 hover:text-blue-500 underline">
-                  Privacy Policy
+                AND{' '}
+                <Link href="/privacy" className="text-pixel-accent hover:text-pixel-warning underline">
+                  PRIVACY_POLICY
                 </Link>
               </label>
             </div>
 
+            {/* Create Player Button */}
             <motion.button
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ 
+                scale: 1.02,
+                boxShadow: '0 0 25px rgba(255, 107, 53, 0.6)'
+              }}
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={loading || !agreedToTerms}
-              className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-pixel-secondary text-pixel-bg py-4 font-bold pixel-font border-2 border-pixel-secondary hover:bg-transparent hover:text-pixel-secondary transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed animate-pixel-glow"
+              style={{
+                clipPath: 'polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)'
+              }}
             >
               {loading ? (
                 <div className="flex items-center justify-center space-x-2">
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  <span>Creating account...</span>
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    className="w-5 h-5 border-2 border-pixel-bg/30 border-t-pixel-bg"
+                  />
+                  <span>CREATING_PLAYER...</span>
                 </div>
               ) : (
-                'Create Account'
+                <div className="flex items-center justify-center space-x-2">
+                  <PixelIcon type="user" animate={false} />
+                  <span>CREATE_PLAYER</span>
+                </div>
               )}
             </motion.button>
+
+            {/* Alternative Registration Methods */}
+            <div className="mt-6">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t-2 border-pixel-secondary/30" />
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-pixel-bg text-pixel-primary/60 pixel-font">OR_QUICK_REGISTER</span>
+                </div>
+              </div>
+
+              <div className="mt-6 grid grid-cols-2 gap-3">
+                <motion.button
+                  type="button"
+                  whileHover={{ 
+                    scale: 1.02,
+                    boxShadow: '0 0 15px rgba(0, 212, 255, 0.4)'
+                  }}
+                  className="w-full flex justify-center items-center py-3 px-4 border-2 border-pixel-blue bg-transparent text-pixel-blue font-bold pixel-font hover:bg-pixel-blue hover:text-pixel-bg transition-all"
+                  style={{
+                    clipPath: 'polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px)'
+                  }}
+                >
+                  <span className="mr-2">🌐</span>
+                  GOOGLE
+                </motion.button>
+                <motion.button
+                  type="button"
+                  whileHover={{ 
+                    scale: 1.02,
+                    boxShadow: '0 0 15px rgba(191, 9, 183, 0.4)'
+                  }}
+                  className="w-full flex justify-center items-center py-3 px-4 border-2 border-pixel-purple bg-transparent text-pixel-purple font-bold pixel-font hover:bg-pixel-purple hover:text-pixel-bg transition-all"
+                  style={{
+                    clipPath: 'polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px)'
+                  }}
+                >
+                  <span className="mr-2">🐙</span>
+                  GITHUB
+                </motion.button>
+              </div>
+            </div>
           </form>
+
+          {/* Animated Border Effect */}
+          <motion.div
+            animate={{ 
+              opacity: [0.3, 1, 0.3],
+              scale: [0.98, 1.02, 0.98]
+            }}
+            transition={{ 
+              duration: 3, 
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            className="absolute inset-0 border-2 border-pixel-secondary pointer-events-none"
+            style={{
+              clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)'
+            }}
+          />
+        </motion.div>
+
+        {/* Character Stats Preview */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="text-center"
+        >
+          <div className="bg-pixel-bg/50 border-2 border-pixel-secondary/30 px-4 py-2 inline-block"
+               style={{
+                 clipPath: 'polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)'
+               }}>
+            <motion.span 
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="text-pixel-primary/80 pixel-font text-xs"
+            >
+              PLAYER_STATS: LVL_1 | EXP: 0 | QUESTS: 0 | STATUS: READY
+            </motion.span>
+          </div>
         </motion.div>
       </motion.div>
     </div>

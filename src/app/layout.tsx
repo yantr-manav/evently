@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./pixel-styles.css";
 import { Providers } from "@/components/Providers";
 import { Navbar } from "@/components/Navbar";
 import { Chatbot } from "@/components/Chatbot";
 import { Toaster } from "react-hot-toast";
+import { PixelBackground } from "@/components/PixelBackground";
 
 export const metadata: Metadata = {
-  title: "EventFlow - Discover Amazing Events",
-  description: "Connect, discover, and attend incredible events in your city",
+  title: "🎮 PixelEvents - Retro Event Discovery",
+  description: "Level up your social life! Discover epic events in pixel-perfect style",
 };
 
 export default function RootLayout({
@@ -21,34 +23,50 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link 
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..800&display=swap" 
+          href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" 
           rel="stylesheet" 
         />
+
       </head>
-      <body className="font-sans antialiased bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 min-h-screen">
+      <body className="font-pixel antialiased bg-pixel-bg min-h-screen text-pixel-primary overflow-x-hidden crt-effect">
         <Providers>
-          <div className="relative">
-            {/* Background Pattern */}
-            <div className="fixed inset-0 opacity-30 pointer-events-none">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-pink-50/50"></div>
-              <div className="absolute inset-0" style={{
-                backgroundImage: `radial-gradient(circle at 1px 1px, rgba(156,146,172,0.15) 1px, transparent 0)`,
-                backgroundSize: '20px 20px'
-              }}></div>
+          <div className="relative min-h-screen">
+            <PixelBackground />
+            
+            {/* Retro Scanlines Effect */}
+            <div className="fixed inset-0 pointer-events-none z-50 scanlines opacity-20"></div>
+            
+            {/* Main Content */}
+            <div className="relative z-10">
+              <Navbar />
+              <main className="relative">{children}</main>
+              <Chatbot />
             </div>
             
-            <Navbar />
-            <main className="relative z-10">{children}</main>
-            <Chatbot />
             <Toaster 
               position="top-right"
               toastOptions={{
                 duration: 4000,
                 style: {
-                  background: '#1f2937',
-                  color: '#f9fafb',
-                  borderRadius: '12px',
-                  border: '1px solid #374151',
+                  background: '#0f0f23',
+                  color: '#00ff41',
+                  border: '2px solid #00ff41',
+                  borderRadius: '0px',
+                  fontFamily: 'Courier New, monospace',
+                  fontSize: '12px',
+                  boxShadow: '0 0 20px rgba(0, 255, 65, 0.3)',
+                },
+                success: {
+                  iconTheme: {
+                    primary: '#39ff14',
+                    secondary: '#0f0f23',
+                  },
+                },
+                error: {
+                  iconTheme: {
+                    primary: '#ff073a',
+                    secondary: '#0f0f23',
+                  },
                 },
               }}
             />

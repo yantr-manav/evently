@@ -1,36 +1,143 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+// README.md
+# Event Platform - PixaBeam Assessment
+
+A modern event management platform built with Next.js and Supabase.
+
+## Features
+
+- 📅 Browse upcoming events
+- ✅ Simple RSVP system (Yes/Maybe/No)
+- 👤 User management with email-based authentication
+- 📱 Responsive design for all devices
+- ⚡ Real-time RSVP counts
+- 🔄 Live event updates
+
+## Tech Stack
+
+- **Frontend**: Next.js 14, React, Tailwind CSS
+- **Backend**: Supabase (PostgreSQL database, API, Authentication)
+- **Deployment**: Vercel
+- **Styling**: Tailwind CSS
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js 18+ installed
+- Supabase account
+- Git
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd event-platform
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-## Learn More
+3. **Set up Supabase**
+   - Create a new project at [supabase.com](https://supabase.com)
+   - Get your project URL and anon key
+   - Run the database setup SQL (provided in assessment documentation)
 
-To learn more about Next.js, take a look at the following resources:
+4. **Environment Variables**
+   Create a `.env.local` file:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. **Run the development server**
+   ```bash
+   npm run dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+6. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
-## Deploy on Vercel
+## Database Schema
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The application uses three main tables:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Users**: Store user information (id, name, email, created_at)
+- **Events**: Store event details with foreign key to creator
+- **RSVPs**: Many-to-many relationship between users and events
+
+## Key Features Implemented
+
+### Event Listing
+- Displays all upcoming events
+- Shows RSVP counts for each event
+- Responsive grid layout
+
+### Event Details
+- Comprehensive event information
+- Real-time attendee list
+- RSVP functionality
+
+### RSVP System
+- Email-based user identification
+- Three status options: Yes, Maybe, No
+- Prevents duplicate RSVPs
+- Updates counts in real-time
+
+## Deployment
+
+### Vercel Deployment
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Set environment variables in Vercel dashboard
+4. Deploy automatically
+
+### Database Security
+- Row Level Security (RLS) enabled on all tables
+- Proper foreign key constraints
+- Input validation and sanitization
+
+## API Endpoints Used
+
+The application uses Supabase's auto-generated REST API:
+
+- `GET /events` - Fetch upcoming events with creator and RSVP data
+- `GET /events/:id` - Fetch specific event details
+- `POST/PUT /rsvps` - Create or update user RSVP
+- `POST /users` - Create new users
+
+## Performance Optimizations
+
+- Database indexing on frequently queried columns
+- Efficient JOIN queries to minimize API calls
+- Client-side state management
+- Responsive images and lazy loading
+
+## Future Enhancements
+
+- User authentication with Supabase Auth
+- Event creation interface
+- Email notifications
+- Event categories and filtering
+- Calendar integration
+- Social sharing features
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+This project is created for the PixaBeam assessment and is for demonstration purposes.
+
+---
+
+**Created by**: [Your Name]  
+**Assessment for**: PixaBeam Database Management Role  
+**Date**: August 30, 2025
